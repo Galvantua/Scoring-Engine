@@ -57,3 +57,4 @@ fi
 
 if [ ! -s "$totalScore" ]; then
 	echo 0 > "$totalScore"
+fi
