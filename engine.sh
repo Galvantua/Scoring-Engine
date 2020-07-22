@@ -11,8 +11,9 @@ init () {
 	touch "$scoringNegatives"
 	touch "$scoringPositives"
 	echo "This is the scoring report for the assesment for the St. Augustine Composite Squadron Cyber Education Program." > "$scoringReport"
-	
-	echo "\t\t\t Points Earned" | cat "$totalScore" - >> "$scoringReport"
+	score=$(cat "$totalScore")
+	score="\t\t\t${score} Points Earned"
+	echo -e "$score" >> "$scoringReport"
 	cat "$scoringNegatives" >> "$scoringReport"
 	cat "$scoringPositives" >> "$scoringReport"
 	echo "" > $scoringPositives
