@@ -6,6 +6,10 @@
 
 ####### init functions #######
 init () {
+	if [ -f "/opt/Scoring-Engine/README" ]; then
+		mv /opt/Scoring-Engine/README /home/user/Desktop/
+	fi
+	
 	touch "$scoringReport"
 	touch "$totalScore"
 	touch "$scoringNegatives"
