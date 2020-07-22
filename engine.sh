@@ -38,8 +38,8 @@ init () {
 	echo	"		$vulns" >> "$scoringReport"
 	echo 	"	</body>
 			</html>" >> "$scoringReport"
-	echo "" > $scoringPositives
-	echo "" > $scoringNegatives
+	echo "" > "$scoringPositives"
+	echo "" > "$scoringNegatives"
 }
 
 scorePoints () {
@@ -71,8 +71,7 @@ totalScore="/opt/Scoring-Engine/totalScore"
 
 init
 
-if [[ "$(cat "/etc/lightdm/lightdm.conf" | grep "allow-guest = false")" = ""]]
-then
+if [[ "$(cat "/etc/lightdm/lightdm.conf" | grep "allow-guest = false")" = "" ]]; then
 	echo ""
 else
 	scorePoints 3 "Disable Guest Account"
