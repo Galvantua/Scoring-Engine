@@ -78,7 +78,7 @@ else
 fi
 
 
-if [ -s "$totalScore" ]; then
+if [[ "$(cat $totalScore)" = "" ]]; then
 	echo 0 > "$totalScore"
 else
 	echo ""
