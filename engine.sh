@@ -56,6 +56,8 @@ else
 fi
 
 
-if [ ! -s "$totalScore" ]; then
+if [ -s "$totalScore" ]; then
+	echo ""
+else
 	echo 0 > "$totalScore"
 fi
