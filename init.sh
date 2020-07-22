@@ -47,11 +47,21 @@ changePasswd() {
 	fi
 	
 }
-######
+###### Init Vars ######
 
-echo " Welcome to the init script for the St Augustine Composite Squadron Scoring Engine"
+totalvars=0
+totalpoints=0
 
-echo "user accts"
+###### Start Init ######
+clear
+echo "Welcome to the init script for the St Augustine Composite Squadron Scoring Engine"
+echo ""
+echo "User Accounts"
 
+#do you want to do user accounts?
+#if yes, continue
+#else skip
+
+#do you make 
 
 createVuln "deleteUser" 3 "eve"
