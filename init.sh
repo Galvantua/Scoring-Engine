@@ -151,14 +151,11 @@ while true; do
 		;;
 	esac
 done
-if [ "response" == "N" ]; then
-	
+if [ "response" == "Y" ]; then
+	#ask if they want to do the action via read
+
+	#if yes, ask for input via the function params
+	read -rp "what user to delete?" user
+	read -rp "how many points is this worth?" "$points"
 fi
-
-#do you want to do user accounts?
-#if yes, continue
-#else skip
-
-#do you make 
-
-createVuln "deleteUser" 3 "eve"
+createVuln "deleteUser" $points "$user"
