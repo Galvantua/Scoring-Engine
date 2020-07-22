@@ -22,8 +22,8 @@ init () {
 scorePoints () {
 	#$1 Points
 	#$2 Message
-	score = $(cat $totalScore)
-	newScore = $(($score - $1))
+	score=$(cat $totalScore)
+	newScore=$(($score - $1))
 	echo "$2 \: $1 pts" >> "$scoringPositives"
 	echo $newScore > $totalScore
 }
@@ -31,18 +31,18 @@ scorePoints () {
 removePoints () {
 	#$1 Points
 	#$2 Message
-	score = $(cat $totalScore)
-	newScore = $(($score - $1))
+	score=$(cat $totalScore)
+	newScore=$(($score - $1))
 	echo "$2 \: $1 pts" >> "$scoringNegatives"
 	echo $newScore > $totalScore
 }
 
 ####### Init Vars #######
 
-scoringReport = "/home/user/Desktop/Score\ Report"
-scoringNegatives = "/opt/Scoring-Engine/penalties"
-scoringPositives = "/opt/Scoring-Engine/gainedVulns"
-totalScore = "/opt/Scoring-Engine/totalScore"
+scoringReport="/home/user/Desktop/Score\ Report"
+scoringNegatives="/opt/Scoring-Engine/penalties"
+scoringPositives="/opt/Scoring-Engine/gainedVulns"
+totalScore="/opt/Scoring-Engine/totalScore"
 
 ####### Run Script #######
 
