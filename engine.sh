@@ -21,27 +21,19 @@ init () {
 	penalties=$(cat "$scoringNegatives" )
 	vulns=$(cat "$scoringPositives" )
 	
-	echo 	"<!DOCTYPE html>
-			<html lang=\"en\">
-				<head>
-    				<meta charset=\"UTF-8\">
-    				<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    				<title>Scoring Report</title>
-				</head>
-				<body>" > "$scoringReport"
-	echo 	"		<h1>This is the scoring report for the assesment for the St. Augustine Composite Squadron Cyber Education Program.</h1>" >> "$scoringReport"
+	cat "/opt/Scoring-Engine/head" > "$scoringReport"
+	echo 	"<h1>This is the scoring report for the assesment for the St. Augustine Composite Squadron Cyber Education Program.</h1>" >> "$scoringReport"
 
-	echo	"		<h2> $score </h2>" >> "$scoringReport"
+	echo	"<h2> $score </h2>" >> "$scoringReport"
 	
-	echo	"		<h3> Penalties: </h3>" >> "$scoringReport"
+	echo	"<h3> Penalties: </h3>" >> "$scoringReport"
 
-	echo	"		$penalties" >> "$scoringReport"
+	echo	"$penalties" >> "$scoringReport"
 
-	echo	"		<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
+	echo	"<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
 
-	echo	"		$vulns" >> "$scoringReport"
-	echo 	"	</body>
-			</html>" >> "$scoringReport"
+	echo	"$vulns" >> "$scoringReport"
+	echo 	"</body></html>" >> "$scoringReport"
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
 	echo "" > "$totalScore"
