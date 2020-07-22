@@ -76,12 +76,13 @@ totalScore="/opt/Scoring-Engine/totalScore"
 
 init
 
-if [[ "$(cat "/etc/lightdm/lightdm.conf" | grep "allow-guest = false")" = "" ]]; then
-	echo ""
-else
+if [[ "$(cat "/etc/lightdm/lightdm.conf" | grep "allow-guest = false")" != "" ]]; then
 	scorePoints 3 "Disable Guest Account"
 fi
 
+if [[ "$(getent passwd eve)" = "" ]]; then
+	scorePoints 3 "Deleted unauthed user eve"
+fi
 
 if [[ "$(cat $totalScore)" = "" ]]; then
 	echo 0 > "$totalScore"
