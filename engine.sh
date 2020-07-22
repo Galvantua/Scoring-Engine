@@ -44,7 +44,7 @@ scorePoints () {
 	#$2 Message
 	score=$(cat $totalScore)
 	newScore=$(($score + $1))
-	echo "<p class=\"vulns\">$2 : $1 pts</p>" >> "$scoringPositives"
+	echo "<p class=\"vulns\">$2 : <span class=\"green\">$1 pts</span></p>" >> "$scoringPositives"
 	echo $newScore > $totalScore
 }
 
@@ -53,7 +53,7 @@ removePoints () {
 	#$2 Message
 	score=$(cat "$totalScore")
 	newScore=$(($score - $1))
-	echo "<p class=\"penalties\">$2 : $1 pts</p>" >> "$scoringNegatives"
+	echo "<p class=\"penalties\">$2 : <span class=\"red\">$1 pts</span></p>" >> "$scoringNegatives"
 	echo $newScore > "$totalScore"
 }
 
