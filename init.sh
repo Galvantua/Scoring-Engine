@@ -101,6 +101,7 @@ init () {
 	echo "" > "$scoringNegatives"
 	echo "" > "$totalScore"
 }' > "engine.sh"
+
 echo 'scorePoints () {
 	#$1 Points
 	#$2 Message
@@ -133,6 +134,26 @@ init" >> "engine.sh"
 echo "Engine init done"
 echo ""
 echo "User Accounts"
+
+while true; do
+	read -rp "do you want to include user accounts?" response
+	case "$response" in
+		[Yy]*)
+			echo "Selected Yes, continuing";
+			response="Y"
+			break;;
+		[Nn]*)
+			echo "selected no, skipping...";
+			response="N"
+			break;;
+		*)
+			echo "Yes or No, please":
+		;;
+	esac
+done
+if [ "response" == "N" ]; then
+	
+fi
 
 #do you want to do user accounts?
 #if yes, continue
