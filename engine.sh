@@ -44,6 +44,7 @@ init () {
 			</html>" >> "$scoringReport"
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
+	echo "" > "$totalScore"
 }
 
 scorePoints () {
@@ -58,10 +59,10 @@ scorePoints () {
 removePoints () {
 	#$1 Points
 	#$2 Message
-	score=$(cat $totalScore)
+	score=$(cat "$totalScore")
 	newScore=$(($score - $1))
 	echo "<p class=\"penalties\">$2 : $1 pts</p>" >> "$scoringNegatives"
-	echo $newScore > $totalScore
+	echo $newScore > "$totalScore"
 }
 
 ####### Init Vars #######
