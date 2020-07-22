@@ -17,7 +17,6 @@ init () {
 	cat "$scoringPositives" >> "$scoringReport"
 	echo "" > $scoringPositives
 	echo "" > $scoringNegatives
-	echo "" > $totalScore
 }
 
 scorePoints () {
@@ -57,7 +56,7 @@ fi
 
 
 if [ -s "$totalScore" ]; then
-	echo ""
-else
 	echo 0 > "$totalScore"
+else
+	echo ""
 fi
