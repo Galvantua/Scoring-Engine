@@ -71,7 +71,7 @@ totalScore="/opt/Scoring-Engine/totalScore"
 
 init
 
-if [ $(cat "/etc/lightdm/lightdm.conf" | grep "allow-guest = false") -e ""]; then
+if [ "$(cat "/etc/lightdm/lightdm.conf" | grep "allow-guest = false")" -e '']; then
 	echo ""
 else
 	scorePoints 3 "Disable Guest Account"
