@@ -11,7 +11,7 @@ init () {
 	touch "$scoringNegatives"
 	touch "$scoringPositives"
 	echo "This is the scoring report for the assesment for the St. Augustine Composite Squadron Cyber Education Program." > "$scoringReport"
-	cat "$totalScore" >> "$scoringReport"
+	cat "$totalScore"+" Points Earned" >> "$scoringReport"
 	cat "$scoringNegatives" >> "$scoringReport"
 	cat "$scoringPositives" >> "$scoringReport"
 	echo "" > $scoringPositives
@@ -54,3 +54,6 @@ else
 	scorePoints 3 "Disable Guest Account"
 fi
 
+
+if [ ! -s "$totalScore" ]; then
+	echo 0 > "$totalScore"
