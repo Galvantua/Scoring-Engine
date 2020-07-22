@@ -19,9 +19,9 @@ deleteUser() {
 	outputType="$1"
 	user="$2"
 	if [ "$outputType" = "test" ]; then
-		return "getent passwd $user"
+		echo "getent passwd $user"
 	elif [ "$outputType" = "message" ]; then
-		return "Deleted User $user"
+		echo "Deleted User $user"
 	fi
 	
 }
