@@ -29,13 +29,13 @@ init () {
 
 	echo	"		<h2> $score </h2>" >> "$scoringReport"
 	
-	echo	"		<h3> Penalties: </h3>" >> $scoringReport
+	echo	"		<h3> Penalties: </h3>" >> "$scoringReport"
 
-	echo	"		$penalties" >> $scoringReport
+	echo	"		$penalties" >> "$scoringReport"
 
-	echo	"		<h3> Fixed Vulnerabilities: </h3>"
+	echo	"		<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
 
-	echo	"		$vulns" >> $scoringReport
+	echo	"		$vulns" >> "$scoringReport"
 	echo 	"	</body>
 			</html>" >> "$scoringReport"
 	echo "" > $scoringPositives
