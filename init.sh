@@ -135,27 +135,64 @@ echo "Engine init done"
 echo ""
 echo "User Accounts"
 
+#while true; do
+#	read -rp "question" response
+#	case "$response" in
+#		[Yy]*)
+#			echo "Selected Yes, continuing1";
+#			response="Y"
+#			break;;
+#		[Nn]*)
+#			echo "Selected no, skipping...";
+#			response="N";
+#			break;;
+#		*)
+#			echo "Yes or No, please";;
+#	esac
+#	
+#done
+
+##### User accounts
+#test if user wants to do the user accts section
+
 while true; do
-	read -rp "do you want to include user accounts?" response
-	case "$response" in
+	read -rp "do you want to include user accounts?" UserAcctResponse
+	case "$UserAcctResponse" in
 		[Yy]*)
 			echo "Selected Yes, continuing";
 			response="Y"
 			break;;
 		[Nn]*)
-			echo "selected no, skipping...";
-			response="N"
+			echo "Selected no, skipping...";
+			response="N";
 			break;;
 		*)
-			echo "Yes or No, please":
-		;;
+			echo "Yes or No, please";;
 	esac
 done
-if [ "response" == "Y" ]; then
-	#ask if they want to do the action via read
 
-	#if yes, ask for input via the function params
-	read -rp "what user to delete?" user
-	read -rp "how many points is this worth?" "$points"
+#go though each vuln cat in user accts to add vulns or skip sections
+if [ "UserAcctResponse" == "Y" ]; then
+	
+	while true; do
+		read -rp "question" userDelResponse
+		case "$userDelResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing1";
+				response="Y"
+				break;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				response="N";
+				break;;
+			*)
+				echo "Yes or No, please";;
+		esac
+	done
+	if [ "$userDelResponse" == "Y" ]; then
+		read -rp "What user to delete?" user
+		read -rp "How many points is this worth?" points
+		echo "Adding vuln to engine..."
+		createVuln "deleteUser" $points "$user"
+	fi
 fi
-createVuln "deleteUser" $points "$user"
