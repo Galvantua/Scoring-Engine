@@ -175,24 +175,20 @@ done
 if [ "UserAcctResponse" == "Y" ]; then
 	
 	while true; do
-		read -rp "question" userDelResponse
+		read -rp "Are there users that need to be deleted?" userDelResponse
 		case "$userDelResponse" in
 			[Yy]*)
-				echo "Selected Yes, continuing1";
-				response="Y"
-				break;;
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "What user to delete?" user;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "deleteUser" $points "$user";;
 			[Nn]*)
 				echo "Selected no, skipping...";
-				response="N";
 				break;;
 			*)
 				echo "Yes or No, please";;
 		esac
 	done
-	if [ "$userDelResponse" == "Y" ]; then
-		read -rp "What user to delete?" user
-		read -rp "How many points is this worth?" points
-		echo "Adding vuln to engine..."
-		createVuln "deleteUser" $points "$user"
-	fi
 fi
