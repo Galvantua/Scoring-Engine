@@ -1,7 +1,29 @@
 #!/usr/bin/env bash
 
 ###### Init Functions ######
-
+doVulns() {
+	sectionQuestion=$1
+	subquestion=$2
+	vulntype=$3
+	while true; do
+		read -rp "$question" response
+		case "$response" in
+			[Yy]*)
+				echo "Selected Yes, continuing1";
+				sleep 1;
+				read -rp "$subquestion" vuln1;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "$vulntype" $points "$vuln1";;
+				break;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				break;;
+			*)
+				echo "Yes or No, please";;
+		esac
+	done
+}
 createVuln() {
 	type="$1"
 	points=$2
@@ -135,22 +157,7 @@ echo "Engine init done"
 echo ""
 echo "User Accounts"
 
-#while true; do
-#	read -rp "question" response
-#	case "$response" in
-#		[Yy]*)
-#			echo "Selected Yes, continuing1";
-#			response="Y"
-#			break;;
-#		[Nn]*)
-#			echo "Selected no, skipping...";
-#			response="N";
-#			break;;
-#		*)
-#			echo "Yes or No, please";;
-#	esac
-#	
-#done
+
 
 ##### User accounts
 #test if user wants to do the user accts section
@@ -191,4 +198,23 @@ if [ "UserAcctResponse" == "Y" ]; then
 				echo "Yes or No, please";;
 		esac
 	done
+
+	while true; do
+		read -rp "Are there users that need to be added?" useraddResponse
+		case "$userDelResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "What user to delete?" user;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "deleteUser" $points "$user";;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				break;;
+			*)
+				echo "Yes or No, please";;
+		esac
+	done
+
 fi
