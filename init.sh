@@ -24,19 +24,51 @@ doVulns() {
 		esac
 	done
 }
+
 createVuln() {
 	type="$1"
 	points=$2
 	var1="$3"
-	test=$($type "test" $var1)
-	message=$($type "message" $var1 )
+	var2="$4"
+	var3="$5"
+	var4="$6"
+	var5="$7"
+	test=$($type "test" $var1 $var2 $var3 $var4 $var5)
+	message=$($type "message" $var1 $var2 $var3 $var4 $var5)
 	echo " 
 if [ ${test} ]; then
 	scorePoints \"$points\" \"$message\"
-fi
-"
+fi 
+" >> engine.sh
+	totalvulns=$(($totalvulns + 1))
+	totalpoints=$(($totalpoints + $points))
 }
 
+chkFileNegative() {
+	outputType="$1"
+	lineToCheck="$2"
+	fileToCheck="$3"
+	message="$4"
+	if [ "$outputType" = "test" ]; then
+		echo "$(grep ${lineToCheck} ${fileToCheck}) = \"\""
+	elif [ "$outputType" = "message" ]; then
+		echo "$message"
+	fi
+}
+
+chkFilePositive() {
+	outputType="$1"
+	lineToCheck="$2"
+	fileToCheck="$3"
+	message="$4"
+	if [ "$outputType" = "test" ]; then
+		echo "$(grep ${lineToCheck} ${fileToCheck}) != \"\""
+	elif [ "$outputType" = "message" ]; then
+		echo "$message"
+	fi
+}
+
+# User Accts #
 deleteUser() {
 	outputType="$1"
 	user="$2"
@@ -69,12 +101,56 @@ changePasswd() {
 	fi
 	
 }
+
+addGrp() {
+	outputType="$1"
+	group="$2"
+	if [ "$outputType" = "test" ]; then
+		echo "$(getent group ${group} ) != \"\""
+	elif [ "$outputType" = "message" ]; then
+		echo "Added group $group"
+	fi
+}
+
+delGrp() {
+	outputType="$1"
+	group="$2"
+	if [ "$outputType" = "test" ]; then
+		echo "$(getent group ${group} ) = \"\""
+	elif [ "$outputType" = "message" ]; then
+		echo "Deleted group $group"
+	fi
+}
+
+delFromGrp() {
+	outputType="$1"
+	user="$2"
+	group="$3"
+	if [ "$outputType" = "test" ]; then
+		echo "$(getent group ${group} | grep ${user}) = \"\""
+	elif [ "$outputType" = "message" ]; then
+		echo "Deleted $user from group $group"
+	fi
+}
+
+addToGrp() {
+	outputType="$1"
+	user="$2"
+	group="$3"
+	if [ "$outputType" = "test" ]; then
+		echo "$(getent group ${group} | grep ${user}) != \"\""
+	elif [ "$outputType" = "message" ]; then
+		echo "Added $user to group $group"
+	fi
+}
+
 ###### Init Vars ######
 
-totalvars=0
+totalvulns=0
 totalpoints=0
 
 ###### Start Init ######
+timedatectl set-timezone America/New_York
 clear
 echo "Welcome to the init script for the St Augustine Composite Squadron Scoring Engine"
 echo ""
@@ -109,13 +185,17 @@ init () {
 	cat "/opt/Scoring-Engine/head" > "$scoringReport"
 	echo 	"<h1>This is the scoring report for the assesment for the St. Augustine Composite Squadron Cyber Education Program.</h1>" >> "$scoringReport"
 
-	echo	"<h2> $score </h2>" >> "$scoringReport"
+	echo	"<br />" >> "$scoringReport"
+
+	echo	"<h2> Updated at $(date) </h2>" >> "$scoringReport0"
+	echo	"<h2> $score points out of $totalPoints </h2>" >> "$scoringReport"
 	
 	echo	"<h3> Penalties: </h3>" >> "$scoringReport"
 
 	echo	"$penalties" >> "$scoringReport"
 
 	echo	"<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
+	echo	"<h3> $fixedVulns fixed out of $totalVulns </h3>"
 
 	echo	"$vulns" >> "$scoringReport"
 	echo 	"</body></html>" >> "$scoringReport"
@@ -131,6 +211,7 @@ echo 'scorePoints () {
 	newScore=$(($score + $1))
 	echo "<p class=\"vulns\">$2 : <span class=\"green\">$1 pts</span></p>" >> "$scoringPositives"
 	echo $newScore > $totalScore
+	fixedVulns=$(($fixedvulns + 1))
 }
 
 removePoints () {
@@ -149,6 +230,7 @@ scoringReport=\"/home/"$sysUser"/Desktop/Score Report.html\"
 scoringNegatives=\"/opt/Scoring-Engine/penalties\"
 scoringPositives=\"/opt/Scoring-Engine/gainedVulns\"
 totalScore=\"/opt/Scoring-Engine/totalScore\"
+fixedVulns=0
 
 ####### Run Script #######
 init" >> "engine.sh"
@@ -190,31 +272,177 @@ if [ "UserAcctResponse" == "Y" ]; then
 				read -rp "What user to delete?" user;
 				read -rp "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
-				createVuln "deleteUser" $points "$user";;
+				createVuln "deleteUser" $points "$user";
+				sleep 1s;;
 			[Nn]*)
 				echo "Selected no, skipping...";
+				sleep 1s;
 				break;;
 			*)
-				echo "Yes or No, please";;
+				echo "Yes or No, please";
+				sleep 1s;;
 		esac
 	done
 
 	while true; do
-		read -rp "Are there users that need to be added?" useraddResponse
-		case "$userDelResponse" in
+		read -rp "Are there users that need to be added?" userAddResponse
+		case "$userAddResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What user to delete?" user;
+				read -rp "What user to add?" user;
 				read -rp "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
-				createVuln "deleteUser" $points "$user";;
+				createVuln "addUser" $points "$user";
+				sleep 1s;;
 			[Nn]*)
 				echo "Selected no, skipping...";
+				sleep 1s;
 				break;;
 			*)
-				echo "Yes or No, please";;
+				echo "Yes or No, please";
+				sleep 1s;;
 		esac
 	done
 
+	while true; do
+		read -rp "Are there users whose passwords need to be changed?" userPassResponse
+		case "$userPassResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "What user to change password?" user;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "changePasswd" $points "$user";
+				sleep 1s;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				sleep 1s;
+				break;;
+			*)
+				echo "Yes or No, please";
+				sleep 1s;;
+		esac
+	done
+
+	while true; do
+		read -rp "Are there groups that need to be removed?" delGrpResponse
+		case "$delGrpResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "What group?" group;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "delGrp" $points "$group";
+				sleep 1s;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				sleep 1s;
+				break;;
+			*)
+				echo "Yes or No, please";
+				sleep 1s;;
+		esac
+	done
+
+	while true; do
+		read -rp "Are there groups that need to be added?" addGrpResponse
+		case "$addGrpResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "What group?" group;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "addGrp" $points "$group";
+				sleep 1s;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				sleep 1s;
+				break;;
+			*)
+				echo "Yes or No, please";
+				sleep 1s;;
+		esac
+	done
+
+	while true; do
+		read -rp "Are there users who need to be removed from a group (this includes sudo)?" delFromGrpResponse
+		case "$delFromGrpResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "What user to delete from group?" user;
+				read -rp "What group?" group;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "delFromGrp" $points "$user" "$group";
+				sleep 1s;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				sleep 1s;
+				break;;
+			*)
+				echo "Yes or No, please";
+				sleep 1s;;
+		esac
+	done
+
+	while true; do
+		read -rp "Are there users who need to be added to a group (this includes sudo)?" addToGrpResponse
+		case "$addToGrpResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "addToGrp" $points "$user" "$group";
+				sleep 1s;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				sleep 1s;
+				break;;
+			*)
+				echo "Yes or No, please";
+				sleep 1s;;
+		esac
+	done
+
+	while true; do
+		read -rp "Do you want to disable Guest Acct?" guestAcctResponse
+		case "$guestAcctResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+				read -rp "What user to add to group?" user;
+				read -rp "What group?" group;
+				read -rp "How many points is this worth?" points;
+				echo "Adding vuln to engine...";
+				createVuln "chkFilePositive" $points "allow-guest=false" "/etc/lightdm/lightdm.conf" "Disabled Guest Account";
+				sleep 1s;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				sleep 1s;
+				break;;
+			*)
+				echo "Yes or No, please";
+				sleep 1s;;
+		esac
+	done
+	
 fi
+
+echo "totalPoints = ${totalpoints}" >> engine.sh
+echo "totalVulns = ${totalvulns}" >> engine.sh
+
+echo "" >> engine.sh
+
+echo '
+if [[ "$(cat $totalScore)" = "" ]]; then
+	echo 0 > "$totalScore"
+else
+	echo ""
+fi' >> engine.sh
+
