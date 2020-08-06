@@ -136,6 +136,7 @@ echo "Creating engine..."
 touch engine.sh
 touch otherStuff
 touch vulns
+echo "" > vulns
 echo ""
 read -rp "What is the System admin user?" sysUser
 
