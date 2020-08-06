@@ -135,7 +135,7 @@ echo ""
 echo "Creating engine..."
 touch engine.sh
 echo ""
-read -rp "What is the System admin user?" $sysUser
+read -rp "What is the System admin user?" sysUser
 
 echo '#!/bin/bash
 # If you have this VM as an assesment leave NOW!!!
@@ -147,7 +147,7 @@ echo '#!/bin/bash
 init () {' > engine.sh
 echo "
 	if [ -f /opt/Scoring-Engine/README ]; then
-		mv /opt/Scoring-Engine/README /home/$sysUser/Desktop/
+		mv /opt/Scoring-Engine/README /home/"${sysUser}"/Desktop/
 	fi
 	" >> engine.sh
 echo '
@@ -157,7 +157,7 @@ echo '
 	touch "$scoringPositives"
 
 	score=$(cat "$totalScore")
-	score="${score} Points Earned"
+	score="${score} Points Earned out of ${totalPoints}"
 	
 	penalties=$(cat "$scoringNegatives" )
 	vulns=$(cat "$scoringPositives" )
@@ -167,8 +167,8 @@ echo '
 
 	echo	"<br />" >> "$scoringReport"
 
-	echo	"<h2> Updated at $(date) </h2>" >> "$scoringReport0"
-	echo	"<h2> $score points out of $totalPoints </h2>" >> "$scoringReport"
+	echo	"<h2> Updated at $(date) </h2>" >> "$scoringReport"
+	echo	"<h2> $score </h2>" >> "$scoringReport"
 	
 	echo	"<h3> Penalties: </h3>" >> "$scoringReport"
 
@@ -206,7 +206,7 @@ removePoints () {
 echo "
 ####### Init Vars #######
 
-scoringReport=\"/home/"$sysUser"/Desktop/Score Report.html\"
+scoringReport=\"/home/"${sysUser}"/Desktop/Score Report.html\"
 scoringNegatives=\"/opt/Scoring-Engine/penalties\"
 scoringPositives=\"/opt/Scoring-Engine/gainedVulns\"
 totalScore=\"/opt/Scoring-Engine/totalScore\"
@@ -415,8 +415,8 @@ if [ "$UserAcctResponse" == "Y" ]; then
 	
 fi
 
-echo "totalPoints = ${totalpoints}" >> engine.sh
-echo "totalVulns = ${totalvulns}" >> engine.sh
+echo "totalPoints=${totalpoints}" >> engine.sh
+echo "totalVulns=${totalvulns}" >> engine.sh
 
 echo "" >> engine.sh
 
