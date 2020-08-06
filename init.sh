@@ -1,29 +1,6 @@
 #!/usr/bin/env bash
 
 ###### Init Functions ######
-doVulns() {
-	sectionQuestion=$1
-	subquestion=$2
-	vulntype=$3
-	while true; do
-		read -rp "$question" response
-		case "$response" in
-			[Yy]*)
-				echo "Selected Yes, continuing1";
-				sleep 1;
-				read -rp "$subquestion" vuln1;
-				read -rp "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "$vulntype" $points "$vuln1";
-				break;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				break;;
-			*)
-				echo "Yes or No, please";;
-		esac
-	done
-}
 
 createVuln() {
 	type="$1"
@@ -249,11 +226,11 @@ while true; do
 	case "$UserAcctResponse" in
 		[Yy]*)
 			echo "Selected Yes, continuing";
-			response="Y"
+			UserAcctResponse="Y"
 			break;;
 		[Nn]*)
 			echo "Selected no, skipping...";
-			response="N";
+			UserAcctResponse="N";
 			break;;
 		*)
 			echo "Yes or No, please";;
