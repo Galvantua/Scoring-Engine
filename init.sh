@@ -238,7 +238,7 @@ while true; do
 done
 
 #go though each vuln cat in user accts to add vulns or skip sections
-if [ "UserAcctResponse" == "Y" ]; then
+if [ "$UserAcctResponse" == "Y" ]; then
 	
 	while true; do
 		read -rp "Are there users that need to be deleted?" userDelResponse
