@@ -13,7 +13,7 @@ createVuln() {
 	test=$($type "test" $var1 $var2 $var3 $var4 $var5)
 	message=$($type "message" $var1 $var2 $var3 $var4 $var5)
 	echo " 
-if [ ${test} ]; then
+if [ \"${test}\" ]; then
 	scorePoints \"$points\" \"$message\"
 fi 
 " >> engine.sh
@@ -144,11 +144,13 @@ echo '#!/bin/bash
 
 
 ####### init functions #######
-init () {
-	if [ -f \"/opt/Scoring-Engine/README\" ]; then
-		mv /opt/Scoring-Engine/README /home/user/Desktop/
+init () {' > engine.sh
+echo "
+	if [ -f /opt/Scoring-Engine/README ]; then
+		mv /opt/Scoring-Engine/README /home/$sysUser/Desktop/
 	fi
-	
+	" >> engine.sh
+echo '
 	touch "$scoringReport"
 	touch "$totalScore"
 	touch "$scoringNegatives"
@@ -173,14 +175,14 @@ init () {
 	echo	"$penalties" >> "$scoringReport"
 
 	echo	"<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
-	echo	"<h3> $fixedVulns fixed out of $totalVulns </h3>"
+	echo	"<h3> $fixedVulns fixed out of $totalVulns </h3>" >> "$scoringReport"
 
 	echo	"$vulns" >> "$scoringReport"
 	echo 	"</body></html>" >> "$scoringReport"
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
 	echo "" > "$totalScore"
-}' > "engine.sh"
+}' > engine.sh
 
 echo 'scorePoints () {
 	#$1 Points
