@@ -182,7 +182,7 @@ echo '
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
 	echo "" > "$totalScore"
-}' > engine.sh
+}' >> engine.sh
 
 echo 'scorePoints () {
 	#$1 Points
