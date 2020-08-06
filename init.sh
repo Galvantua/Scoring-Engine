@@ -13,7 +13,7 @@ createVuln() {
 	test=$($type "test" $var1 $var2 $var3 $var4 $var5)
 	message=$($type "message" $var1 $var2 $var3 $var4 $var5)
 	echo " 
-if [ \"${test}\" ]; then
+if [ ${test} ]; then
 	scorePoints \"$points\" \"$message\"
 fi 
 " >> engine.sh
@@ -27,7 +27,7 @@ chkFileNegative() {
 	fileToCheck="$3"
 	message="$4"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(grep ${lineToCheck} ${fileToCheck}) = \"\""
+		echo "\"\$(grep ${lineToCheck} ${fileToCheck})\" = \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "$message"
 	fi
@@ -39,7 +39,7 @@ chkFilePositive() {
 	fileToCheck="$3"
 	message="$4"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(grep ${lineToCheck} ${fileToCheck}) != \"\""
+		echo "\"\$(grep ${lineToCheck} ${fileToCheck})\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "$message"
 	fi
@@ -50,7 +50,7 @@ deleteUser() {
 	outputType="$1"
 	user="$2"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(getent passwd $user) = \"\""
+		echo "\"\$(getent passwd $user)\" = \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Deleted User $user"
 	fi
@@ -61,7 +61,7 @@ addUser() {
 	outputType="$1"
 	user="$2"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(getent passwd $user) != \"\""
+		echo "\"\$(getent passwd $user)\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Added User $user"
 	fi
@@ -73,7 +73,7 @@ changePasswd() {
 	user="$2"
 	if [ "$outputType" = "test" ]; then
 		currentDay=$(expr $(date +%s) / 86400)
-		echo "\$(getent shadow $user | cut -d: -f3) >= $currentDay"
+		echo "\"\$(getent shadow $user | cut -d: -f3)\" >= $currentDay"
 	elif [ "$outputType" = "message" ]; then
 		echo "Changed Password $user"
 	fi
@@ -84,7 +84,7 @@ addGrp() {
 	outputType="$1"
 	group="$2"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(getent group ${group} ) != \"\""
+		echo "\"\$(getent group ${group} )\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Added group $group"
 	fi
@@ -94,7 +94,7 @@ delGrp() {
 	outputType="$1"
 	group="$2"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(getent group ${group} ) = \"\""
+		echo "\"\$(getent group ${group} )\" = \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Deleted group $group"
 	fi
@@ -105,7 +105,7 @@ delFromGrp() {
 	user="$2"
 	group="$3"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(getent group ${group} | grep ${user}) = \"\""
+		echo "\"\$(getent group ${group} | grep ${user})\" = \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Deleted $user from group $group"
 	fi
@@ -116,7 +116,7 @@ addToGrp() {
 	user="$2"
 	group="$3"
 	if [ "$outputType" = "test" ]; then
-		echo "\$(getent group ${group} | grep ${user}) != \"\""
+		echo "\"\$(getent group ${group} | grep ${user})\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Added $user to group $group"
 	fi
