@@ -16,7 +16,7 @@ createVuln() {
 if [ ${test} ]; then
 	scorePoints \"$points\" \"$message\"
 fi 
-" >> engine.sh
+" >> vulns
 	totalvulns=$(($totalvulns + 1))
 	totalpoints=$(($totalpoints + $points))
 }
@@ -134,6 +134,8 @@ echo "Welcome to the init script for the St Augustine Composite Squadron Scoring
 echo ""
 echo "Creating engine..."
 touch engine.sh
+touch otherStuff
+touch vulns
 echo ""
 read -rp "What is the System admin user?" sysUser
 
@@ -144,12 +146,12 @@ echo '#!/bin/bash
 
 
 ####### init functions #######
-init () {' > engine.sh
+init () {' > otherStuff
 echo "
 	if [ -f /opt/Scoring-Engine/README ]; then
 		mv /opt/Scoring-Engine/README /home/"${sysUser}"/Desktop/
 	fi
-	" >> engine.sh
+	" >> otherStuff
 echo '
 	touch "$scoringReport"
 	touch "$totalScore"
@@ -182,7 +184,7 @@ echo '
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
 	echo "" > "$totalScore"
-}' >> engine.sh
+}' >> otherStuff
 
 
 echo 'scorePoints () {
@@ -202,19 +204,9 @@ removePoints () {
 	newScore=$(($score - $1))
 	echo "<p class=\"penalties\">$2 : <span class=\"red\">$1 pts</span></p>" >> "$scoringNegatives"
 	echo $newScore > "$totalScore"
-}' >> "engine.sh"
+}' >> otherStuff
 
-echo "
-####### Init Vars #######
 
-scoringReport=\"/home/"${sysUser}"/Desktop/Score Report.html\"
-scoringNegatives=\"/opt/Scoring-Engine/penalties\"
-scoringPositives=\"/opt/Scoring-Engine/gainedVulns\"
-totalScore=\"/opt/Scoring-Engine/totalScore\"
-fixedVulns=0
-
-####### Run Script #######
-init" >> "engine.sh"
 
 echo "Engine init done"
 echo ""
@@ -416,15 +408,27 @@ if [ "$UserAcctResponse" == "Y" ]; then
 	
 fi
 
-echo "totalPoints=${totalpoints}" >> engine.sh
-echo "totalVulns=${totalvulns}" >> engine.sh
+echo "
+####### Init Vars #######
 
-echo "" >> engine.sh
+scoringReport=\"/home/"${sysUser}"/Desktop/Score Report.html\"
+scoringNegatives=\"/opt/Scoring-Engine/penalties\"
+scoringPositives=\"/opt/Scoring-Engine/gainedVulns\"
+totalScore=\"/opt/Scoring-Engine/totalScore\"
+fixedVulns=0
+totalVulns=${totalvulns}
+totalPoints=${totalpoints}
+
+####### Run Script #######
+init" >> otherStuff
+
+
+cat otherStuff > engine.sh
+
+cat vulns >> engine.sh
 
 echo '
 if [[ "$(cat $totalScore)" = "" ]]; then
 	echo 0 > "$totalScore"
-else
-	echo ""
 fi' >> engine.sh
 
