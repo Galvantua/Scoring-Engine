@@ -72,7 +72,8 @@ changePasswd() {
 	outputType="$1"
 	user="$2"
 	if [ "$outputType" = "test" ]; then
-		echo "$(getent shadow $user | cut -d: -f3) = \"$(echo $(($(date --utc --date \"$1\" +%s)/86400)))\" "
+		currentDay=$(expr $(date +%s) / 86400)
+		echo "$(getent shadow $user | cut -d: -f3) >= $currentDay"
 	elif [ "$outputType" = "message" ]; then
 		echo "Changed Password $user"
 	fi
@@ -395,12 +396,11 @@ if [ "$UserAcctResponse" == "Y" ]; then
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What user to add to group?" user;
-				read -rp "What group?" group;
 				read -rp "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "chkFilePositive" $points "allow-guest=false" "/etc/lightdm/lightdm.conf" "Disabled Guest Account";
-				sleep 1s;;
+				sleep 1s;
+				break;;
 			[Nn]*)
 				echo "Selected no, skipping...";
 				sleep 1s;
