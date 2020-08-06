@@ -73,7 +73,7 @@ changePasswd() {
 	user="$2"
 	if [ "$outputType" = "test" ]; then
 		currentDay=$(expr $(date +%s) / 86400)
-		echo "\"\$(getent shadow $user | cut -d: -f3)\" >= $currentDay"
+		echo "\"\$(getent shadow $user | cut -d: -f3)\" -gt $currentDay"
 	elif [ "$outputType" = "message" ]; then
 		echo "Changed Password $user"
 	fi
