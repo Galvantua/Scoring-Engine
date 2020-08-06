@@ -187,6 +187,7 @@ echo '
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
 	echo "" > "$totalScore"
+	echo "" > "$fixedVulns"
 }' >> otherStuff
 
 
@@ -196,6 +197,7 @@ echo 'scorePoints () {
 	score=$(cat $totalScore)
 	newScore=$(($score + $1))
 	echo "<p class=\"vulns\">$2 : <span class=\"green\">$1 pts</span></p>" >> "$scoringPositives"
+	echo $newScore > "$totalScore"
 	fixed=$(cat $fixedVulns)
 	newFixed=$(($fixed + 1))
 	echo "$newFixed" > $fixedVulns
