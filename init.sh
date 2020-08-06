@@ -373,6 +373,8 @@ if [ "$UserAcctResponse" == "Y" ]; then
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
+				read -rp "What user to add to group?" user;
+				read -rp "What group?" group;
 				read -rp "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "addToGrp" $points "$user" "$group";
