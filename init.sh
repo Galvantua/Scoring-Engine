@@ -184,6 +184,7 @@ echo '
 	echo "" > "$totalScore"
 }' >> engine.sh
 
+
 echo 'scorePoints () {
 	#$1 Points
 	#$2 Message
