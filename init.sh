@@ -14,7 +14,7 @@ doVulns() {
 				read -rp "$subquestion" vuln1;
 				read -rp "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
-				createVuln "$vulntype" $points "$vuln1";;
+				createVuln "$vulntype" $points "$vuln1";
 				break;;
 			[Nn]*)
 				echo "Selected no, skipping...";
