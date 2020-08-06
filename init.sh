@@ -157,10 +157,12 @@ echo '
 	touch "$totalScore"
 	touch "$scoringNegatives"
 	touch "$scoringPositives"
+	touch "$fixedVulns"
 
 	score=$(cat "$totalScore")
 	score="${score} Points Earned out of ${totalPoints}"
-	
+	numberVulns=$(cat "$fixedVulns")
+
 	penalties=$(cat "$scoringNegatives" )
 	vulns=$(cat "$scoringPositives" )
 	
@@ -177,7 +179,7 @@ echo '
 	echo	"$penalties" >> "$scoringReport"
 
 	echo	"<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
-	echo	"<h3> $fixedVulns fixed out of $totalVulns </h3>" >> "$scoringReport"
+	echo	"<h3> $numberVulns fixed out of $totalVulns </h3>" >> "$scoringReport"
 
 	echo	"$vulns" >> "$scoringReport"
 	echo 	"</body></html>" >> "$scoringReport"
@@ -193,8 +195,9 @@ echo 'scorePoints () {
 	score=$(cat $totalScore)
 	newScore=$(($score + $1))
 	echo "<p class=\"vulns\">$2 : <span class=\"green\">$1 pts</span></p>" >> "$scoringPositives"
-	echo $newScore > $totalScore
-	fixedVulns=$(($fixedvulns + 1))
+	fixed=$(cat $fixedVulns)
+	newFixed=$(($fixed + 1))
+	echo "$newFixed" > $fixedVulns
 }
 
 removePoints () {
@@ -415,7 +418,7 @@ scoringReport=\"/home/"${sysUser}"/Desktop/Score Report.html\"
 scoringNegatives=\"/opt/Scoring-Engine/penalties\"
 scoringPositives=\"/opt/Scoring-Engine/gainedVulns\"
 totalScore=\"/opt/Scoring-Engine/totalScore\"
-fixedVulns=0
+fixedVulns=\"/opt/Scoring-Engine/fixedVulns\"
 totalVulns=${totalvulns}
 totalPoints=${totalpoints}
 
@@ -430,5 +433,10 @@ cat vulns >> engine.sh
 echo '
 if [[ "$(cat $totalScore)" = "" ]]; then
 	echo 0 > "$totalScore"
-fi' >> engine.sh
+fi
+
+if [[ "$(cat $fixedVulns)" = "" ]]; then
+	echo 0 > "$fixedVulns"
+fi
+' >> engine.sh
 
