@@ -249,10 +249,10 @@ done
 # I put my function here. feel free to move it
 dosomething () {
 message=$1
+command=$2
 option1=$3
 option2=$4
-command=$2
-while true; do
+	while true; do
                 prompt "$message" userResp$
                 case "$userResponse" in
                         [Yy]*)
@@ -266,7 +266,7 @@ while true; do
 				fi
                                 prompt "How many points is this worth?" point$
                                 echo "Adding vuln to engine...";
-                                createVuln "$command" "$points" "$input";
+                                createVuln "$command" "$points" "$input1" "$input2";
                                 sleep 1s;;
                         [Nn]*)
                                 echo "Selected no, skipping...";
@@ -283,27 +283,8 @@ while true; do
 
 #go though each vuln cat in user accts to add vulns or skip sections
 if [ "$UserAcctResponse" == "Y" ]; then
-	while true; do
-while true; do
-		prompt "Are there users that need to be deleted?" userDelResponse
-		case "$userDelResponse" in
-			[Yy]*)
-				echo "Selected Yes, continuing...";
-				sleep 1;
-				prompt "What user to delete?" user;
-				prompt "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "deleteUser" $points "$user";
-				sleep 1s;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				sleep 1s;
-				break;;
-			*)
-				echo "Yes or No, please";
-				sleep 1s;;
-		esac
-	done
+
+	dosomething "Are there users that need to be deleted?" "deluser" "What user to delete?"
 
 	while true; do
 		prompt "Are there users that need to be added?" userAddResponse
