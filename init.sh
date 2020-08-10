@@ -239,10 +239,45 @@ while true; do
 	esac
 done
 
+# I put my function here. feel free to move it
+dosomething () {
+message=$1
+option1=$3
+option2=$4
+command=$2
+while true; do
+                read -rp "$message" userResp$
+                case "$userResponse" in
+                        [Yy]*)
+                                echo "Selected Yes, continuing...";
+                                sleep 1;
+				if [ $option1 != "" ]; then
+				read -rp "$option1" input1;
+				fi
+				if [ $option2 != ""; then
+				read -rp "$option2" input2;
+				fi
+                                read -rp "How many points is this worth?" point$
+                                echo "Adding vuln to engine...";
+                                createVuln "$command" "$points" "$input";
+                                sleep 1s;;
+                        [Nn]*)
+                                echo "Selected no, skipping...";
+                                sleep 1s;
+                                break;;
+                        *)
+                                echo "Yes or No, please";
+                                sleep 1s;;
+                esac
+        done
+
+}
+
+
 #go though each vuln cat in user accts to add vulns or skip sections
 if [ "$UserAcctResponse" == "Y" ]; then
-	
 	while true; do
+while true; do
 		read -rp "Are there users that need to be deleted?" userDelResponse
 		case "$userDelResponse" in
 			[Yy]*)
