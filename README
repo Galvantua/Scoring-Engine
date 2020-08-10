@@ -12,3 +12,9 @@ This computer is running a static webserver, so no database.
 Do not look in /opt/Scoring-Engine, this is an integrity thing.
 Theres some forensics questions. answering them might be helpful.
 theres an html file on your desktop that might be cool to take a peek
+<<<<<<< c7030cff58a5931eaef2de7ed7894b5f53a0cfa8
+=======
+
+morton was here
+and Mauro
+>>>>>>> this is a test
