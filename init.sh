@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
 ###### Init Functions ######
+prompt() {
+	message="$1"
+	outputVar="$2"
+	echo "$message"
+	echo -n "  : "
+	read -rp "" $outputVar
+}
 
 createVuln() {
 	type="$1"
@@ -138,7 +145,7 @@ touch otherStuff
 touch vulns
 echo "" > vulns
 echo ""
-read -rp "What is the System admin user?" sysUser
+prompt "What is the System admin user?" sysUser
 
 echo '#!/bin/bash
 # If you have this VM as an assesment leave NOW!!!
@@ -224,7 +231,7 @@ echo "User Accounts"
 #test if user wants to do the user accts section
 
 while true; do
-	read -rp "do you want to include user accounts?" UserAcctResponse
+	prompt "do you want to include user accounts?" UserAcctResponse
 	case "$UserAcctResponse" in
 		[Yy]*)
 			echo "Selected Yes, continuing";
@@ -246,18 +253,18 @@ option1=$3
 option2=$4
 command=$2
 while true; do
-                read -rp "$message" userResp$
+                prompt "$message" userResp$
                 case "$userResponse" in
                         [Yy]*)
                                 echo "Selected Yes, continuing...";
                                 sleep 1;
 				if [ $option1 != "" ]; then
-				read -rp "$option1" input1;
+				prompt "$option1" input1;
 				fi
 				if [ $option2 != ""; then
-				read -rp "$option2" input2;
+				prompt "$option2" input2;
 				fi
-                                read -rp "How many points is this worth?" point$
+                                prompt "How many points is this worth?" point$
                                 echo "Adding vuln to engine...";
                                 createVuln "$command" "$points" "$input";
                                 sleep 1s;;
@@ -278,13 +285,13 @@ while true; do
 if [ "$UserAcctResponse" == "Y" ]; then
 	while true; do
 while true; do
-		read -rp "Are there users that need to be deleted?" userDelResponse
+		prompt "Are there users that need to be deleted?" userDelResponse
 		case "$userDelResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What user to delete?" user;
-				read -rp "How many points is this worth?" points;
+				prompt "What user to delete?" user;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "deleteUser" $points "$user";
 				sleep 1s;;
@@ -299,13 +306,13 @@ while true; do
 	done
 
 	while true; do
-		read -rp "Are there users that need to be added?" userAddResponse
+		prompt "Are there users that need to be added?" userAddResponse
 		case "$userAddResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What user to add?" user;
-				read -rp "How many points is this worth?" points;
+				prompt "What user to add?" user;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "addUser" $points "$user";
 				sleep 1s;;
@@ -320,13 +327,13 @@ while true; do
 	done
 
 	while true; do
-		read -rp "Are there users whose passwords need to be changed?" userPassResponse
+		prompt "Are there users whose passwords need to be changed?" userPassResponse
 		case "$userPassResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What user to change password?" user;
-				read -rp "How many points is this worth?" points;
+				prompt "What user to change password?" user;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "changePasswd" $points "$user";
 				sleep 1s;;
@@ -341,13 +348,13 @@ while true; do
 	done
 
 	while true; do
-		read -rp "Are there groups that need to be removed?" delGrpResponse
+		prompt "Are there groups that need to be removed?" delGrpResponse
 		case "$delGrpResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What group?" group;
-				read -rp "How many points is this worth?" points;
+				prompt "What group?" group;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "delGrp" $points "$group";
 				sleep 1s;;
@@ -362,13 +369,13 @@ while true; do
 	done
 
 	while true; do
-		read -rp "Are there groups that need to be added?" addGrpResponse
+		prompt "Are there groups that need to be added?" addGrpResponse
 		case "$addGrpResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What group?" group;
-				read -rp "How many points is this worth?" points;
+				prompt "What group?" group;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "addGrp" $points "$group";
 				sleep 1s;;
@@ -383,14 +390,14 @@ while true; do
 	done
 
 	while true; do
-		read -rp "Are there users who need to be removed from a group (this includes sudo)?" delFromGrpResponse
+		prompt "Are there users who need to be removed from a group (this includes sudo)?" delFromGrpResponse
 		case "$delFromGrpResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What user to delete from group?" user;
-				read -rp "What group?" group;
-				read -rp "How many points is this worth?" points;
+				prompt "What user to delete from group?" user;
+				prompt "What group?" group;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "delFromGrp" $points "$user" "$group";
 				sleep 1s;;
@@ -405,14 +412,14 @@ while true; do
 	done
 
 	while true; do
-		read -rp "Are there users who need to be added to a group (this includes sudo)?" addToGrpResponse
+		prompt "Are there users who need to be added to a group (this includes sudo)?" addToGrpResponse
 		case "$addToGrpResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "What user to add to group?" user;
-				read -rp "What group?" group;
-				read -rp "How many points is this worth?" points;
+				prompt "What user to add to group?" user;
+				prompt "What group?" group;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "addToGrp" $points "$user" "$group";
 				sleep 1s;;
@@ -427,12 +434,12 @@ while true; do
 	done
 
 	while true; do
-		read -rp "Do you want to disable Guest Acct?" guestAcctResponse
+		prompt "Do you want to disable Guest Acct?" guestAcctResponse
 		case "$guestAcctResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
-				read -rp "How many points is this worth?" points;
+				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
 				createVuln "chkFilePositive" $points "allow-guest=false" "/etc/lightdm/lightdm.conf" "Disabled Guest Account";
 				sleep 1s;
