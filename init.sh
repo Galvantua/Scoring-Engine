@@ -193,10 +193,8 @@ echo '#!/bin/bash
 ####### init functions #######
 init () {' > otherStuff
 echo "
-	if [ -f /opt/Scoring-Engine/README ]; then
-		mv /opt/Scoring-Engine/README /home/"${sysUser}"/Desktop/
-	fi
-	" >> otherStuff
+	cp /opt/Scoring-Engine/README /home/"${sysUser}"/Desktop/README
+" >> otherStuff
 echo '
 	touch "$scoringReport"
 	touch "$totalScore"
