@@ -290,7 +290,8 @@ if [ "$UserAcctResponse" == "Y" ]; then
 
 	dosomething "Are there users that need to be deleted?" "deluser" "What user to delete?"
 
-	while true; do
+	
+while true; do
 		prompt "Are there users that need to be added?" userAddResponse
 		case "$userAddResponse" in
 			[Yy]*)
