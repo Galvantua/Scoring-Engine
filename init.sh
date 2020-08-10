@@ -254,7 +254,7 @@ command=$2
 option1=$3
 option2=$4
 	while true; do
-                prompt "$message" userResp$
+                prompt "$message" userResponse
                 case "$userResponse" in
                         [Yy]*)
                                 echo "Selected Yes, continuing...";
