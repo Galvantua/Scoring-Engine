@@ -261,7 +261,7 @@ option2=$4
 				if [ $option1 != "" ]; then
 				prompt "$option1" input1;
 				fi
-				if [ $option2 != ""; then
+				if [ $option2 != ""]; then
 				prompt "$option2" input2;
 				fi
                                 prompt "How many points is this worth?" point$
