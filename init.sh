@@ -29,6 +29,39 @@ fi
 	totalpoints=$(($totalpoints + $points))
 }
 
+vulnMakerUI () {
+promptMessage="$1"
+command="$2"
+option1="$3"
+option2="$4"
+	while true; do
+                prompt "$promptMessage" userResponse
+                case "$userResponse" in
+                        [Yy]*)
+                                echo "Selected Yes, continuing...";
+                                sleep 1;
+				if [ "$option1" != "" ]; then
+				prompt "$option1" input1;
+				fi
+				if [ "$option2" != "" ]; then
+				prompt "$option2" input2;
+				fi
+                                prompt "How many points is this worth?" points
+                                echo "Adding vuln to engine...";
+                                createVuln "$command" "$points" "$input1" "$input2";
+                                sleep 1s;;
+                        [Nn]*)
+                                echo "Selected no, skipping...";
+                                sleep 1s;
+                                break;;
+                        *)
+                                echo "Yes or No, please";
+                                sleep 1s;;
+                esac
+        done
+
+}
+
 chkFileNegative() {
 	outputType="$1"
 	lineToCheck="$2"
@@ -250,174 +283,22 @@ while true; do
 	esac
 done
 
-# I put my function here. feel free to move it
-dosomething () {
-message=$1
-command=$2
-option1=$3
-option2=$4
-	while true; do
-                prompt "$message" userResponse
-                case "$userResponse" in
-                        [Yy]*)
-                                echo "Selected Yes, continuing...";
-                                sleep 1;
-				if [ $option1 != "" ]; then
-				prompt "$option1" input1;
-				fi
-				if [ $option2 != ""]; then
-				prompt "$option2" input2;
-				fi
-                                prompt "How many points is this worth?" point$
-                                echo "Adding vuln to engine...";
-                                createVuln "$command" "$points" "$input1" "$input2";
-                                sleep 1s;;
-                        [Nn]*)
-                                echo "Selected no, skipping...";
-                                sleep 1s;
-                                break;;
-                        *)
-                                echo "Yes or No, please";
-                                sleep 1s;;
-                esac
-        done
-
-}
-
-
 #go though each vuln cat in user accts to add vulns or skip sections
 if [ "$UserAcctResponse" == "Y" ]; then
 
-	dosomething "Are there users that need to be deleted?" "deluser" "What user to delete?"
+	vulnMakerUI "Are there users that need to be deleted?" "deleteUser" "What user to delete?"
 
-	
-while true; do
-		prompt "Are there users that need to be added?" userAddResponse
-		case "$userAddResponse" in
-			[Yy]*)
-				echo "Selected Yes, continuing...";
-				sleep 1;
-				prompt "What user to add?" user;
-				prompt "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "addUser" $points "$user";
-				sleep 1s;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				sleep 1s;
-				break;;
-			*)
-				echo "Yes or No, please";
-				sleep 1s;;
-		esac
-	done
+	vulnMakerUI "Are there users that need to be added?" "addUser" "What user to add?"
 
-	while true; do
-		prompt "Are there users whose passwords need to be changed?" userPassResponse
-		case "$userPassResponse" in
-			[Yy]*)
-				echo "Selected Yes, continuing...";
-				sleep 1;
-				prompt "What user to change password?" user;
-				prompt "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "changePasswd" $points "$user";
-				sleep 1s;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				sleep 1s;
-				break;;
-			*)
-				echo "Yes or No, please";
-				sleep 1s;;
-		esac
-	done
+	vulnMakerUI "Are there users whose passwords need to be changed?" "changePasswd" "What user to change password?"
 
-	while true; do
-		prompt "Are there groups that need to be removed?" delGrpResponse
-		case "$delGrpResponse" in
-			[Yy]*)
-				echo "Selected Yes, continuing...";
-				sleep 1;
-				prompt "What group?" group;
-				prompt "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "delGrp" $points "$group";
-				sleep 1s;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				sleep 1s;
-				break;;
-			*)
-				echo "Yes or No, please";
-				sleep 1s;;
-		esac
-	done
+	vulnMakerUI "Are there groups that need to be removed?" "delGrp" "What group?"
 
-	while true; do
-		prompt "Are there groups that need to be added?" addGrpResponse
-		case "$addGrpResponse" in
-			[Yy]*)
-				echo "Selected Yes, continuing...";
-				sleep 1;
-				prompt "What group?" group;
-				prompt "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "addGrp" $points "$group";
-				sleep 1s;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				sleep 1s;
-				break;;
-			*)
-				echo "Yes or No, please";
-				sleep 1s;;
-		esac
-	done
+	vulnMakerUI "Are there groups that need to be added?" "addGrp" "What group?"
 
-	while true; do
-		prompt "Are there users who need to be removed from a group (this includes sudo)?" delFromGrpResponse
-		case "$delFromGrpResponse" in
-			[Yy]*)
-				echo "Selected Yes, continuing...";
-				sleep 1;
-				prompt "What user to delete from group?" user;
-				prompt "What group?" group;
-				prompt "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "delFromGrp" $points "$user" "$group";
-				sleep 1s;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				sleep 1s;
-				break;;
-			*)
-				echo "Yes or No, please";
-				sleep 1s;;
-		esac
-	done
+	vulnMakerUI "Are there users who need to be removed from a group (this includes sudo)?" "delFromGrp" "What user to delete from group?" "What group?"
 
-	while true; do
-		prompt "Are there users who need to be added to a group (this includes sudo)?" addToGrpResponse
-		case "$addToGrpResponse" in
-			[Yy]*)
-				echo "Selected Yes, continuing...";
-				sleep 1;
-				prompt "What user to add to group?" user;
-				prompt "What group?" group;
-				prompt "How many points is this worth?" points;
-				echo "Adding vuln to engine...";
-				createVuln "addToGrp" $points "$user" "$group";
-				sleep 1s;;
-			[Nn]*)
-				echo "Selected no, skipping...";
-				sleep 1s;
-				break;;
-			*)
-				echo "Yes or No, please";
-				sleep 1s;;
-		esac
-	done
+	vulnMakerUI "Are there users who need to be added to a group (this includes sudo)?" "addToGrp" "What user to add to group?" "What group?"
 
 	while true; do
 		prompt "Do you want to disable Guest Acct?" guestAcctResponse
