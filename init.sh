@@ -7,6 +7,7 @@ prompt() {
 	echo "$message"
 	echo -n "  : "
 	read -rp "" $outputVar
+	echo ""
 }
 
 createVuln() {
