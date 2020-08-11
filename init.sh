@@ -201,6 +201,7 @@ echo '
 	touch "$scoringNegatives"
 	touch "$scoringPositives"
 	touch "$fixedVulns"
+	touch "$lastScore"
 
 	score=$(cat "$totalScore")
 	score="${score} Points Earned out of ${totalPoints}"
@@ -228,6 +229,7 @@ echo '
 	echo 	"</body></html>" >> "$scoringReport"
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
+	echo "$totalScore" > "$lastScore"
 	echo "" > "$totalScore"
 	echo "" > "$fixedVulns"
 }' >> otherStuff
@@ -328,7 +330,9 @@ scoringReport=\"/home/"${sysUser}"/Desktop/Score Report.html\"
 scoringNegatives=\"/opt/Scoring-Engine/penalties\"
 scoringPositives=\"/opt/Scoring-Engine/gainedVulns\"
 totalScore=\"/opt/Scoring-Engine/totalScore\"
+lastScore=\"/opt/Scoring-Engine/lastScore\"
 fixedVulns=\"/opt/Scoring-Engine/fixedVulns\"
+
 totalVulns=${totalvulns}
 totalPoints=${totalpoints}
 
@@ -348,5 +352,12 @@ fi
 if [[ "$(cat $fixedVulns)" = "" ]]; then
 	echo 0 > "$fixedVulns"
 fi
+
+if [[ "$totalScore" -gt "$lastScore" ]]; then
+	sendGainedPoints
+elif [[ "$totalScore" -lt "$lastScore" ]];
+	sendLostPoints
+fi
 ' >> engine.sh
+
 
