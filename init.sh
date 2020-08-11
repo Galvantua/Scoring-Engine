@@ -254,7 +254,18 @@ removePoints () {
 	newScore=$(($score - $1))
 	echo "<p class=\"penalties\">$2 : <span class=\"red\">$1 pts</span></p>" >> "$scoringNegatives"
 	echo $newScore > "$totalScore"
-}' >> otherStuff
+}
+sendGainedPoints(){
+	image="/opt/Scoring-Engine/gained.png"
+	text="/opt/Scoring-Engine/gained.txt"
+	notify-send "$text" "$image"
+}
+sendLostPoints(){
+	image="/opt/Scoring-Engine/lost.png"
+	text="/opt/Scoring-Engine/lost.txt"
+	notify-send "$text" "$image"
+}
+' >> otherStuff
 
 
 
