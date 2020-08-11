@@ -35,30 +35,30 @@ command="$2"
 option1="$3"
 option2="$4"
 	while true; do
-                prompt "$promptMessage" userResponse
-                case "$userResponse" in
-                        [Yy]*)
-                                echo "Selected Yes, continuing...";
-                                sleep 1;
+				prompt "$promptMessage" userResponse
+				case "$userResponse" in
+						[Yy]*)
+								echo "Selected Yes, continuing...";
+								sleep 1;
 				if [ "$option1" != "" ]; then
 				prompt "$option1" input1;
 				fi
 				if [ "$option2" != "" ]; then
 				prompt "$option2" input2;
 				fi
-                                prompt "How many points is this worth?" points
-                                echo "Adding vuln to engine...";
-                                createVuln "$command" "$points" "$input1" "$input2";
-                                sleep 1s;;
-                        [Nn]*)
-                                echo "Selected no, skipping...";
-                                sleep 1s;
-                                break;;
-                        *)
-                                echo "Yes or No, please";
-                                sleep 1s;;
-                esac
-        done
+								prompt "How many points is this worth?" points
+								echo "Adding vuln to engine...";
+								createVuln "$command" "$points" "$input1" "$input2";
+								sleep 1s;;
+						[Nn]*)
+								echo "Selected no, skipping...";
+								sleep 1s;
+								break;;
+						*)
+								echo "Yes or No, please";
+								sleep 1s;;
+				esac
+		done
 
 }
 
