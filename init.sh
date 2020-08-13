@@ -364,7 +364,7 @@ if [[ "$(cat $fixedVulns)" = "" ]]; then
 	echo 0 > "$fixedVulns"
 fi
 
-if [[ "$( cat "$totalScore") -gt "$(cat "$lastScore")" ]]; then
+if [[ "$( cat "$totalScore")" -gt "$(cat "$lastScore")" ]]; then
 	sendGainedPoints
 elif [[ "$( cat "$totalScore") -lt "$(cat "$lastScore")" ]]; then
 	sendLostPoints
