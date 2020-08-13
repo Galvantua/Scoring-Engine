@@ -170,9 +170,6 @@ totalpoints=0
 
 ###### Start Init ######
 timedatectl set-timezone America/New_York
-if [ $(grep "bash /opt/Scoring-Engine/engine.sh") = "" ]; then
-	echo "* *     * * *   root    bash /opt/Scoring-Engine/engine.sh" >> /etc/crontab
-fi
 clear
 echo "Welcome to the init script for the St Augustine Composite Squadron Scoring Engine"
 echo ""
@@ -186,6 +183,11 @@ prompt "What is the System admin user?" sysUser
 touch /etc/lightdm/lightdm.conf
 echo "[Seat:*]
 autologin-user=${sysUser}" > /etc/lightdm/lightdm.conf
+if [ $(grep "bash /opt/Scoring-Engine/engine.sh") = "" ]; then
+	echo "DISPLAY=:0.0" >> /etc/crontab
+	echo "XAUTHORITY=/home/${sysUser}/.Xauthority" >> /etc/crontab
+	echo "* *     * * *   root    bash /opt/Scoring-Engine/engine.sh" >> /etc/crontab
+fi
 echo '#!/bin/bash
 # If you have this VM as an assesment leave NOW!!!
 # Looking through this file is a violation of integrety, 
