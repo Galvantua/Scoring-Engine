@@ -170,7 +170,9 @@ totalpoints=0
 
 ###### Start Init ######
 timedatectl set-timezone America/New_York
-echo "* *     * * *   root    bash /opt/Scoring-Engine/engine.sh" >> /etc/crontab
+if [ $(grep "bash /opt/Scoring-Engine/engine.sh") = "" ]; then
+	echo "* *     * * *   root    bash /opt/Scoring-Engine/engine.sh" >> /etc/crontab
+fi
 clear
 echo "Welcome to the init script for the St Augustine Composite Squadron Scoring Engine"
 echo ""
