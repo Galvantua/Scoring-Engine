@@ -256,14 +256,12 @@ removePoints () {
 	echo $newScore > "$totalScore"
 }
 sendGainedPoints(){
-	image="/opt/Scoring-Engine/gained.png"
-	text="/opt/Scoring-Engine/gained.txt"
-	notify-send "$text" "$image"
+	notify-send -u critical -i "/opt/Scoring-Engine/gained.png" "Scoring Engine" "You Gained Points"
+	aplay "/opt/Scoring-Engine/gained.wav"
 }
 sendLostPoints(){
-	image="/opt/Scoring-Engine/lost.png"
-	text="/opt/Scoring-Engine/lost.txt"
-	notify-send "$text" "$image"
+	notify-send -u critical -i "/opt/Scoring-Engine/lost.png" "Scoring Engine" "You Lost Points"
+	aplay "/opt/Scoring-Engine/lost.wav"
 }
 ' >> otherStuff
 
