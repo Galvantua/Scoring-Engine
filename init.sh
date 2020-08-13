@@ -229,7 +229,7 @@ echo '
 	echo 	"</body></html>" >> "$scoringReport"
 	echo "" > "$scoringPositives"
 	echo "" > "$scoringNegatives"
-	echo "$totalScore" > "$lastScore"
+	echo "$(cat "$totalScore")" > "$lastScore"
 	echo "" > "$totalScore"
 	echo "" > "$fixedVulns"
 }' >> otherStuff
