@@ -364,9 +364,9 @@ if [[ "$(cat $fixedVulns)" = "" ]]; then
 	echo 0 > "$fixedVulns"
 fi
 
-if [[ "$totalScore" -gt "$lastScore" ]]; then
+if [[ "$( cat "$totalScore") -gt "$(cat "$lastScore")" ]]; then
 	sendGainedPoints
-elif [[ "$totalScore" -lt "$lastScore" ]];
+elif [[ "$( cat "$totalScore") -lt "$(cat "$lastScore")" ]]; then
 	sendLostPoints
 fi
 ' >> engine.sh
