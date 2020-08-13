@@ -180,14 +180,14 @@ touch vulns
 echo "" > vulns
 echo ""
 prompt "What is the System admin user?" sysUser
-touch /etc/lightdm/lightdm.conf
-echo "[Seat:*]
-autologin-user=${sysUser}" > /etc/lightdm/lightdm.conf
-if [ $(grep "bash /opt/Scoring-Engine/engine.sh") = "" ]; then
+if [ "$(grep 'bash /opt/Scoring-Engine/engine.sh' /etc/crontab)" = "" ]; then
 	echo "DISPLAY=:0.0" >> /etc/crontab
 	echo "XAUTHORITY=/home/${sysUser}/.Xauthority" >> /etc/crontab
 	echo "* *     * * *   root    bash /opt/Scoring-Engine/engine.sh" >> /etc/crontab
 fi
+touch /etc/lightdm/lightdm.conf
+echo "[Seat:*]
+autologin-user=${sysUser}" > /etc/lightdm/lightdm.conf
 echo '#!/bin/bash
 # If you have this VM as an assesment leave NOW!!!
 # Looking through this file is a violation of integrety, 
@@ -368,7 +368,7 @@ fi
 
 if [[ "$( cat "$totalScore")" -gt "$(cat "$lastScore")" ]]; then
 	sendGainedPoints
-elif [[ "$( cat "$totalScore") -lt "$(cat "$lastScore")" ]]; then
+elif [[ "$( cat "$totalScore")" -lt "$(cat "$lastScore")" ]]; then
 	sendLostPoints
 fi
 ' >> engine.sh
