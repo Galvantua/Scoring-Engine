@@ -30,36 +30,44 @@ fi
 }
 
 vulnMakerUI () {
-promptMessage="$1"
-command="$2"
-option1="$3"
-option2="$4"
+	promptMessage="$1"
+	command="$2"
+	option1="$3"
+	option2="$4"
+	option3="$5"
 	while true; do
-				prompt "$promptMessage" userResponse
-				case "$userResponse" in
-						[Yy]*)
-								echo "Selected Yes, continuing...";
-								sleep 1;
+		prompt "$promptMessage" userResponse
+		case "$userResponse" in
+			[Yy]*)
+				echo "Selected Yes, continuing...";
+				sleep 1;
+			
 				if [ "$option1" != "" ]; then
-				prompt "$option1" input1;
+					prompt "$option1" input1;
 				fi
+			
 				if [ "$option2" != "" ]; then
-				prompt "$option2" input2;
+					prompt "$option2" input2;
 				fi
-								prompt "How many points is this worth?" points
-								echo "Adding vuln to engine...";
-								createVuln "$command" "$points" "$input1" "$input2";
-								sleep 1s;;
-						[Nn]*)
-								echo "Selected no, skipping...";
-								sleep 1s;
-								break;;
-						*)
-								echo "Yes or No, please";
-								sleep 1s;;
-				esac
-		done
 
+				if [ "$option3" != "" ]; then
+					prompt "$option3" input3;
+				fi
+
+				prompt "How many points is this worth?" points
+				echo "Adding vuln to engine...";
+				createVuln "$command" "$points" "$input1" "$input2" "$input3";
+				touch 
+				sleep 1s;;
+			[Nn]*)
+				echo "Selected no, skipping...";
+				sleep 1s;
+				break;;
+			*)
+				echo "Yes or No, please";
+				sleep 1s;;
+		esac
+	done
 }
 
 chkFileNegative() {
@@ -83,6 +91,24 @@ chkFilePositive() {
 		echo "\"\$(grep ${lineToCheck} ${fileToCheck})\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "$message"
+	fi
+}
+
+createForensics {
+	outputType="$1"
+	question="$2"
+	answer="$3"
+	fileName="$4"
+	touch "$fileName"
+	echo "Forensics Question:" > "$fileName"
+	echo "$question" >> "$fileName"
+	echo "" 
+	echo "ANSWER: " >> "$fileName"
+	mv "$fileName" "/home/$sysUser/Desktop/"
+	if [ "$outputType" = "test" ]; then
+		echo "  \"\$(grep \"ANSWER: $answer\")\" != \"\" "
+	elif [ "$outputType" = "message" ]; then
+		echo "Solved ${fileName}"
 	fi
 }
 
@@ -273,9 +299,34 @@ sendLostPoints(){
 
 echo "Engine init done"
 echo ""
+echo "Forensics Questions"
+
+#### Forensics Questions
+#test if user wants to add forensics questions
+
+while true; do
+	prompt "Do you want to include Forensics Questions?" userForensicsResponse
+	case "$userForensicsResponse" in
+		[Yy]*)
+			echo "Selected Yes, continuing";
+			userForensicsResponse="Y"
+			break;;
+		[Nn]*)
+			echo "Selected no, skipping...";
+			userForensicsResponse="N";
+			break;;
+		*)
+			echo "Yes or No, please";;
+	esac
+done
+
+if [ "$userForensicsResponse" == "Y" ]; then
+	vulnMakerUI "Would you like to add a Forensics Question?" "chkFilePositive" "What question should be answered?" "What is the answer to the question?" "What should the file be named? (We reccomend \"Forensics_Question_number\")"
+fi
+
+
+echo ""
 echo "User Accounts"
-
-
 
 ##### User accounts
 #test if user wants to do the user accts section
