@@ -18,8 +18,8 @@ createVuln() {
 	var3="$5"
 	var4="$6"
 	var5="$7"
-	test=$($type "test" $var1 $var2 $var3 $var4 $var5)
-	message=$($type "message" $var1 $var2 $var3 $var4 $var5)
+	test=$("$type" "test" "$var1" "$var2" "$var3" "$var4" "$var5")
+	message=$("$type" "message" "$var1" "$var2" "$var3" "$var4" "$var5")
 	echo " 
 if [ ${test} ]; then
 	scorePoints \"$points\" \"$message\"
@@ -321,7 +321,7 @@ while true; do
 done
 
 if [ "$userForensicsResponse" == "Y" ]; then
-	vulnMakerUI "Would you like to add a Forensics Question?" "chkFilePositive" "What question should be answered?" "What is the answer to the question?" "What should the file be named? (We reccomend \"Forensics_Question_number\")"
+	vulnMakerUI "Would you like to add a Forensics Question?" "createForensics" "What question should be answered?" "What is the answer to the question?" "What should the file be named? (We reccomend \"Forensics_Question_number\")"
 fi
 
 
