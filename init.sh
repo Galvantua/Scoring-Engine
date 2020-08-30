@@ -106,6 +106,12 @@ createForensics() {
 	echo "ANSWER: " >> "$fileName"
 	mv "$fileName" "/home/$sysUser/Desktop/"
 	if [ "$outputType" = "test" ]; then
+		touch "$fileName"
+		echo "Forensics Question:" > "$fileName"
+		echo "$question" >> "$fileName"
+		echo "" >> "$fileName"
+		echo "ANSWER: " >> "$fileName"
+	mv "$fileName" "/home/$sysUser/Desktop/"
 		echo "  \"\$(grep \"ANSWER: $answer\")\" != \"\" "
 	elif [ "$outputType" = "message" ]; then
 		echo "Solved ${fileName}"
