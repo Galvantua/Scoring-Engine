@@ -94,7 +94,7 @@ chkFilePositive() {
 	fi
 }
 
-createForensics {
+createForensics() {
 	outputType="$1"
 	question="$2"
 	answer="$3"
