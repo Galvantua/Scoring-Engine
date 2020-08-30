@@ -20,11 +20,11 @@ createVuln() {
 	var5="$7"
 	test=$("$type" "test" "$var1" "$var2" "$var3" "$var4" "$var5")
 	message="$("$type" "message" "$var1" "$var2" "$var3" "$var4" "$var5")"
-	echo " 
+	vuln="
 if [ ${test} ]; then
 	scorePoints \"$points\" \"$message\"
-fi 
-" >> vulns
+fi "
+	echo "$vuln" >> vulns
 	totalvulns=$(($totalvulns + 1))
 	totalpoints=$(($totalpoints + $points))
 }
