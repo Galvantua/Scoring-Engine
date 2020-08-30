@@ -110,6 +110,7 @@ createForensics() {
 		echo "$question" >> "$fileName"
 		echo "" >> "$fileName"
 		echo "ANSWER: " >> "$fileName"
+		chmod a=rw- $filename
 		mv "$fileName" "/home/$sysUser/Desktop/"
 		echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
 	elif [ "$outputType" = "message" ]; then
