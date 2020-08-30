@@ -111,7 +111,7 @@ createForensics() {
 		echo "" >> "$fileName"
 		echo "ANSWER: " >> "$fileName"
 	mv "$fileName" "/home/$sysUser/Desktop/"
-		echo "  \"\$(grep \"ANSWER: $answer\")\" != \"\" "
+		echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Solved ${fileName}"
 	fi
