@@ -19,7 +19,7 @@ createVuln() {
 	var4="$6"
 	var5="$7"
 	test=$("$type" "test" "$var1" "$var2" "$var3" "$var4" "$var5")
-	message=$("$type" "message" "$var1" "$var2" "$var3" "$var4" "$var5")
+	message="$("$type" "message" "$var1" "$var2" "$var3" "$var4" "$var5")"
 	echo " 
 if [ ${test} ]; then
 	scorePoints \"$points\" \"$message\"
@@ -57,7 +57,6 @@ vulnMakerUI () {
 				prompt "How many points is this worth?" points
 				echo "Adding vuln to engine...";
 				createVuln "$command" "$points" "$input1" "$input2" "$input3";
-				touch 
 				sleep 1s;;
 			[Nn]*)
 				echo "Selected no, skipping...";
