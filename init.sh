@@ -101,7 +101,6 @@ createForensics() {
 	touch "$fileName"
 	echo "Forensics Question:" > "$fileName"
 	echo "$question" >> "$fileName"
-	echo "" 
 	echo "ANSWER: " >> "$fileName"
 	mv "$fileName" "/home/$sysUser/Desktop/"
 	if [ "$outputType" = "test" ]; then
@@ -110,7 +109,7 @@ createForensics() {
 		echo "$question" >> "$fileName"
 		echo "" >> "$fileName"
 		echo "ANSWER: " >> "$fileName"
-		chmod a=rw- $filename
+		chmod -f a=rw- $filename
 		mv "$fileName" "/home/$sysUser/Desktop/"
 		echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
 	elif [ "$outputType" = "message" ]; then
