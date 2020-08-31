@@ -98,11 +98,6 @@ createForensics() {
 	question="$2"
 	answer="$3"
 	fileName="$4"
-	touch "$fileName"
-	echo "Forensics Question:" > "$fileName"
-	echo "$question" >> "$fileName"
-	echo "ANSWER: " >> "$fileName"
-	mv "$fileName" "/home/$sysUser/Desktop/"
 	if [ "$outputType" = "test" ]; then
 		touch "$fileName"
 		echo "Forensics Question:" > "$fileName"
