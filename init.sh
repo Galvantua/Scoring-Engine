@@ -104,7 +104,7 @@ createForensics() {
 		echo "$question" >> "$fileName"
 		echo "" >> "$fileName"
 		echo "ANSWER: " >> "$fileName"
-		chmod -f a=rw- $filename
+		chown "$sysUser":"$sysUser" "$fileName"
 		mv "$fileName" "/home/$sysUser/Desktop/"
 		echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
 	elif [ "$outputType" = "message" ]; then
@@ -121,7 +121,7 @@ deleteUser() {
 	elif [ "$outputType" = "message" ]; then
 		echo "Deleted User $user"
 	fi
-	
+
 }
 
 addUser() {
