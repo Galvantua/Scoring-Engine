@@ -28,13 +28,14 @@ createVuln() {
 	var3="$5"
 	var4="$6"
 	var5="$7"
-	test=$("$type" "test" "$var1" "$var2" "$var3" "$var4" "$var5")
-	message="$("$type" "message" "$var1" "$var2" "$var3" "$var4" "$var5")"
-	vuln="
-if [ ${test} ]; then
-	scorePoints \"$points\" \"$message\"
-fi "
-	echo "$vuln" >> vulns
+	message="$("$type" "message" "$points" "$var1" "$var2" "$var3" "$var4" "$var5")"
+	$type "test" "$points" "$message" "$var1" "$var2" "$var3" "$var4" "$var5"
+	
+	#vuln="
+#if [ ${test} ]; then
+#	scorePoints \"$points\" \"$message\"
+#fi "
+#	echo "$vuln" >> vulns
 	totalvulns=$(($totalvulns + 1))
 	totalpoints=$(($totalpoints + $points))
 }
@@ -109,9 +110,11 @@ chkFilePositive() {
 
 createForensics() {
 	outputType="$1"
-	question="$2"
-	answer="$3"
-	fileName="$4"
+	message="$2"
+	points="$3"
+	question="$4"
+	answer="$5"
+	fileName="$6"
 	if [ "$outputType" = "test" ]; then
 		touch "$fileName"
 		echo "Forensics Question:" > "$fileName"
@@ -120,7 +123,8 @@ createForensics() {
 		echo "ANSWER: " >> "$fileName"
 		chown "$sysUser":"$sysUser" "$fileName"
 		mv "$fileName" "/home/${sysUser}/Desktop/"
-		echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
+		jq ".filesToCheckPositive |=.+ [{\"lineToCheck\": $answer, \"fileToCheck\": \"/home/$sysUser/Desktop/$fileName\", \"points\": $points, \"message\": $message}]" ./config.json | sponge ./config.json
+		# echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Solved ${fileName}"
 	fi
