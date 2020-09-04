@@ -121,7 +121,6 @@ deleteUser() {
 	elif [ "$outputType" = "message" ]; then
 		echo "Deleted User $user"
 	fi
-
 }
 
 addUser() {

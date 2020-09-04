@@ -3,20 +3,26 @@
 	"sytemAdministrator": "user",
 	"totalVulns": 0,
 	"totalPoints": 0,
-	"scoredVulnMessages": [ "Deleted user eve" ],
-	"scoredPenaltyMessages": [ "Deleted Authorized User bob" ],
+	"scoredVulnMessages": ["Deleted user eve"],
+	"scoredPenaltyMessages": ["Deleted Authorized User bob"],
 	"currentPoints": 0,
 	"currentVulns": 0,
 	"lastPoints": 0,
 
-	"authorizedUsers": [ "user", "alice", "bob" ],
-	"authorizedAdmins": [ "user" ],
 	"filesToCheckPositive": [
-					{
-						"lineToCheck": "allow-guest?=false",
-						"fileToCheck": "/etc/lightdm/lightdm.conf",
-						"points": 5,
-						"message": "Removed Guest Account"
-					}
-				],
+		{
+			"lineToCheck": "allow-guest=false",
+			"fileToCheck": "/etc/lightdm/lightdm.conf",
+			"points": 5,
+			"message": "Removed Guest Account"
+		}
+	],
+	"filesToCheckNegative": [
+		{
+			"lineToCheck": "allow-guest?=false",
+			"fileToCheck": "/etc/lightdm/lightdm.conf",
+			"points": 5,
+			"message": "Removed Guest Account"
+		}
+	]
 }
