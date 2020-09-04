@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
+# checklist:
+# zenity --list --column "column1" --column "column2" FALSE row1 FALSE row2 --checklist
+
+#text entry:
+# zenity --entry --text"Question"
 
 ###### Init Functions ######
 prompt() {
 	message="$1"
 	outputVar="$2"
-	echo "$message"
-	echo -n "  : "
-	read -rp "" $outputVar
-	echo ""
+	$outputVar=$(zenity --entry --text="$message")
 }
 
 createVuln() {
