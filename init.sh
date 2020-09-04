@@ -311,3 +311,6 @@ if [ "$userResponse" == "Y" ]; then
 	done
 	
 fi
+
+jq ".totalPoints |= $totalpoints" ./config.json | sponge ./config.json
+jq ".totalVulns |= $totalvulns" ./config.json | sponge ./config.json

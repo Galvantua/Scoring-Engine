@@ -56,7 +56,7 @@ scorePoints () {
 	message="$2"
 	score=$totalScore
 	newScore=$(($score + $points))
-	jq --arg message "$message" --arg points $points '.scoredVulnMessages[] |=.+ {"message": $message, "points": $points}' "$config" | sponge "$config"
+	jq ".scoredVulnMessages[] |=.+ {\"message\": \"$message\", \"points\": $points}" "$config" | sponge "$config"
 	totalScore=$newScore
 	fixed=$fixedVulns
 	newFixed=$(($fixed + 1))
@@ -120,3 +120,5 @@ elif [[ $totalScore -lt $lastScore ]]; then
 	sendLostPoints
 fi
 
+jq ".currentPoints |= $totalScore" ./config.json | sponge ./config.json
+jq ".currentVulns |= $fixedVulns" ./config.json | sponge ./config.json
