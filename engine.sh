@@ -97,9 +97,9 @@ init
 
 jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
 	lineToCheck=$(echo "$vuln" | jq ".lineToCheck")
-	fileToCheck=$(echo "$vuln" | jq ".lineToCheck")
-	message=$(echo "$vuln" | jq ".lineToCheck")
-	points=$(echo "$vuln" | jq ".lineToCheck")
+	fileToCheck=$(echo "$vuln" | jq ".fileToCheck")
+	message=$(echo "$vuln" | jq ".message")
+	points=$(echo "$vuln" | jq ".points")
 
 	if [ "$(grep "$lineToCheck" "$fileToCheck")" != "" ]; then
 		scorePoints "$points" "$message"
