@@ -114,9 +114,9 @@ if [[ "$fixedVulns" = "" ]]; then
 	fixedVulns=0
 fi
 
-if [[ "$totalScore" -gt "$lastScore" ]]; then
+if [[ $totalScore -gt $lastScore ]]; then
 	sendGainedPoints
-elif [[ "$totalScore" -lt "$lastScore" ]]; then
+elif [[ $totalScore -lt $lastScore ]]; then
 	sendLostPoints
 fi
 
