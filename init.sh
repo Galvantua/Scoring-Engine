@@ -8,17 +8,15 @@
 ###### Init Functions ######
 promptText() {
 	message="$1"
-	outputVar="$2"
-	$outputVar=$(zenity --entry --text="$message")
+	userRespose=$(zenity --entry --text="$message")
 }
 promptYN() {
 	message="$1"
-	outputVar="$2"
 	zenity --question --text="$message"
 	if [ $? = 0 ]; then
-		echo 0 | read $outputVar
+		userResponse="Y"
 	elif [ $? = 1 ]; then
-		echo 1 | read $outputVar
+		userResponse="N"
 	fi
 }
 
@@ -48,25 +46,29 @@ vulnMakerUI () {
 	option2="$4"
 	option3="$5"
 	while true; do
-		promptYN "$promptMessage" userResponse
+		promptYN "$promptMessage" 
 		case "$userResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
 			
 				if [ "$option1" != "" ]; then
-					promptText "$option1" input1;
+					promptText "$option1";
+					input1="$userResponse"
 				fi
 			
 				if [ "$option2" != "" ]; then
-					promptText "$option2" input2;
+					promptText "$option2";
+					input2="$userResponse"
 				fi
 
 				if [ "$option3" != "" ]; then
-					prompt "$option3" input3;
+					prompt "$option3";
+					input3="$userResponse"
 				fi
 
-				promptText "How many points is this worth?" points
+				promptText "How many points is this worth?"
+				points=$userResponse
 				echo "Adding vuln to engine...";
 				createVuln "$command" "$points" "$input1" "$input2" "$input3";
 				sleep 1s;;
@@ -216,7 +218,8 @@ touch otherStuff
 touch vulns
 echo "" > vulns
 echo ""
-promptText "What is the System admin user?" sysUser
+promptText "What is the System admin user?"
+sysUser="$userResponse"
 if [ "$(grep 'bash /opt/Scoring-Engine/engine.sh' /etc/crontab)" = "" ]; then
 	echo "DISPLAY=:0.0" >> /etc/crontab
 	echo "XAUTHORITY=/home/${sysUser}/.Xauthority" >> /etc/crontab
@@ -316,15 +319,15 @@ echo "Forensics Questions"
 #test if user wants to add forensics questions
 
 while true; do
-	promptYN "Do you want to include Forensics Questions?" userForensicsResponse
-	case "$userForensicsResponse" in
+	promptYN "Do you want to include Forensics Questions?" 
+	case "$userResponse" in
 		[Yy]*)
 			echo "Selected Yes, continuing";
-			userForensicsResponse="Y"
+			userResponse="Y"
 			break;;
 		[Nn]*)
 			echo "Selected no, skipping...";
-			userForensicsResponse="N";
+			userResponse="N";
 			break;;
 		*)
 			echo "Yes or No, please";;
@@ -343,15 +346,15 @@ echo "User Accounts"
 #test if user wants to do the user accts section
 
 while true; do
-	promptYN "do you want to include user accounts?" UserAcctResponse
-	case "$UserAcctResponse" in
+	promptYN "do you want to include user accounts?"
+	case "$userResponse" in
 		[Yy]*)
 			echo "Selected Yes, continuing";
-			UserAcctResponse="Y"
+			userResponse="Y"
 			break;;
 		[Nn]*)
 			echo "Selected no, skipping...";
-			UserAcctResponse="N";
+			userResponse="N";
 			break;;
 		*)
 			echo "Yes or No, please";;
@@ -376,14 +379,15 @@ if [ "$UserAcctResponse" == "Y" ]; then
 	vulnMakerUI "Are there users who need to be added to a group (this includes sudo)?" "addToGrp" "What user to add to group?" "What group?"
 
 	while true; do
-		promptYN "Do you want to disable Guest Acct?" guestAcctResponse
-		case "$guestAcctResponse" in
+		promptYN "Do you want to disable Guest Acct?"
+		case "$userResponse" in
 			[Yy]*)
 				echo "Selected Yes, continuing...";
 				sleep 1;
 				promptText "How many points is this worth?" points;
+				points=$userResponse
 				echo "Adding vuln to engine...";
-				createVuln "chkFilePositive" $points "allow-guest ?= ?false" "/etc/lightdm/lightdm.conf" "Disabled Guest Account";
+				createVuln "chkFilePositive" $points "allow-guest=false" "/etc/lightdm/lightdm.conf" "Disabled Guest Account";
 				sleep 1s;
 				break;;
 			[Nn]*)
