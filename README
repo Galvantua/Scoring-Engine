@@ -2,16 +2,14 @@ NOTE: this is scructured similar to cyberpatriot but its not cyberpatriot. all i
 
 Authed admins:
 user (you)
-    password: password
-bob
-    password: superstrongpassword
+    password: 
 
-authorised users: alice
+authorised users: 
 
-This computer is running a static webserver, so no database.
+
+
 Do not look in /opt/Scoring-Engine, this is an integrity thing.
-Theres some forensics questions. answering them might be helpful.
-theres an html file on your desktop that might be cool to take a peek
 
-morton was here
-and Mauro
+There's some forensics questions. Answering them might be helpful.
+
+There's an HTML file on your desktop that might be cool to take a peek at.

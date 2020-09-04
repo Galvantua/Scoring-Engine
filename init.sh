@@ -372,7 +372,7 @@ if [ "$UserAcctResponse" == "Y" ]; then
 				sleep 1;
 				prompt "How many points is this worth?" points;
 				echo "Adding vuln to engine...";
-				createVuln "chkFilePositive" $points "allow-guest=false" "/etc/lightdm/lightdm.conf" "Disabled Guest Account";
+				createVuln "chkFilePositive" $points "allow-guest ?= ?false" "/etc/lightdm/lightdm.conf" "Disabled Guest Account";
 				sleep 1s;
 				break;;
 			[Nn]*)
