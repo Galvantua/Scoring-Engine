@@ -48,7 +48,7 @@ init () {
 	jq '.scoredPenaltyMessages |= []' "$config" | sponge "$config"
 	
 	jq --arg points $totalScore '.lastPoints |= $points' "$config" | sponge "$config"
-	jq '.totalScore |= 0' "$config" | sponge "$config"
+	jq '.currentPoints |= 0' "$config" | sponge "$config"
 	jq '.currentVulns |= 0' "$config" | sponge "$config"
 }
 scorePoints () {
@@ -57,7 +57,7 @@ scorePoints () {
 	score=$totalScore
 	newScore=$(($score + $points))
 	jq --arg message "$message" --arg points $points '.scoredVulnMessages[] |=.+ {"message": $message, "points": $points}' "$config" | sponge "$config"
-	totalScore=$newscore
+	totalScore=$newScore
 	fixed=$fixedVulns
 	newFixed=$(($fixed + 1))
 	fixedVulns=$newFixed
@@ -68,7 +68,7 @@ removePoints () {
 	score=$totalScore
 	newScore=$(($score - $points))
 	jq --arg message "$message" --arg points $points '.scoredPenaltyMessages[] |=.+ {"message": $message, "points": $points}' "$config" | sponge "$config"
-	totalScore=$newscore
+	totalScore=$newScore
 }
 sendGainedPoints(){
 	notify-send -u critical -i "/opt/Scoring-Engine/gained.png" "Scoring Engine" "You Gained Points"
