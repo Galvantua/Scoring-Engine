@@ -82,7 +82,7 @@ sendLostPoints(){
 
 ####### Init Vars #######
 config="/opt/Scoring-Engine/config.json"
-systemUser="$(jq ".systemUser" $config)"
+systemUser="$(jq -r ".systemUser" $config)"
 scoringReport="/home/$systemUser/Desktop/Score Report.html"
 scoringNegatives="$(jq -c ".scoredPenaltyMessages[]" $config)"
 scoringPositives="$(jq -c ".scoredVulnMessages[]" $config)"
