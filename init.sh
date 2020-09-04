@@ -16,9 +16,9 @@ promptYN() {
 	outputVar="$2"
 	zenity --question --text="$message"
 	if [ $? = 0 ]; then
-		$outputVar=Y
+		echo 0 | read $outputVar
 	elif [ $? = 1 ]; then
-		$outputVar=N
+		echo 1 | read $outputVar
 	fi
 }
 
