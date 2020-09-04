@@ -48,8 +48,8 @@ init () {
 	jq '.scoredPenaltyMessages |= []' "$config" | sponge "$config"
 	
 	jq --arg points $totalScore '.lastPoints |= $points' "$config" | sponge "$config"
-	jq '.totalScore |= []' "$config" | sponge "$config"
-	jq '.currentVulns |= []' "$config" | sponge "$config"
+	jq '.totalScore |= 0' "$config" | sponge "$config"
+	jq '.currentVulns |= 0' "$config" | sponge "$config"
 }
 scorePoints () {
 	points=$1
@@ -102,7 +102,7 @@ jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
 	points=$(echo "$vuln" | jq -r ".points")
 
 	if [ "$(grep "$lineToCheck" "$fileToCheck")" != "" ]; then
-		scorePoints "$points" "$message"
+		scorePoints $points "$message"
 	fi
 done
 
