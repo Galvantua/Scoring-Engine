@@ -334,7 +334,7 @@ while true; do
 	esac
 done
 
-if [ "$userForensicsResponse" == "Y" ]; then
+if [ "$userResponse" == "Y" ]; then
 	vulnMakerUI "Would you like to add a Forensics Question?" "createForensics" "What question should be answered?" "What is the answer to the question?" "What should the file be named? (We reccomend \"Forensics_Question_number\")"
 fi
 
@@ -362,7 +362,7 @@ while true; do
 done
 
 #go though each vuln cat in user accts to add vulns or skip sections
-if [ "$UserAcctResponse" == "Y" ]; then
+if [ "$userResponse" == "Y" ]; then
 
 	vulnMakerUI "Are there users that need to be deleted?" "deleteUser" "What user to delete?"
 
