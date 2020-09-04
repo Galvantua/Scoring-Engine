@@ -19,10 +19,61 @@
 	],
 	"filesToCheckNegative": [
 		{
-			"lineToCheck": "allow-guest?=false",
-			"fileToCheck": "/etc/lightdm/lightdm.conf",
+			"lineToCheck": "Protocol 1",
+			"fileToCheck": "/etc/ssh/sshd_config",
 			"points": 5,
-			"message": "Removed Guest Account"
+			"message": "Disabled SSH Protocol 1"
+		}
+	],
+	"usersToDelete": [
+		{
+			"user": "eve",
+			"points": 3,
+			"message": "Removed Unauthorized User eve"
+		}
+	],
+	"usersToAdd": [
+		{
+			"user": "evans",
+			"points": 3,
+			"message": "Added Authorized User evans"
+		}
+	],
+	"usersToChpasswd": [
+		{
+			"user": "alice",
+			"points": 3,
+			"message": "Changed Insecure Password For User alice"
+		}
+	],
+	"groupsToAdd": [
+		{
+			"group": "cryptography",
+			"points": 3,
+			"message": "Added Group cryptography"
+		}
+	],
+	"groupsToDelete": [
+		{
+			"group": "hackers",
+			"points": 3,
+			"message": "Removed Group hackers"
+		}
+	],
+	"usersToRemoveFromGroup": [
+		{
+			"user": "bob",
+			"group": "sudo",
+			"points": 3,
+			"message": "Removed bob from group sudo"
+		}
+	],
+	"usersToAddToGroup": [
+		{
+			"user": "alice",
+			"group": "cryptography",
+			"points": 3,
+			"message": "Added alice to group cryptography"
 		}
 	]
 }
