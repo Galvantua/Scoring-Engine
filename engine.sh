@@ -86,11 +86,11 @@ systemUser="$(jq -r ".systemUser" $config)"
 scoringReport="/home/$systemUser/Desktop/Score Report.html"
 scoringNegatives="$(jq -c ".scoredPenaltyMessages[]" $config)"
 scoringPositives="$(jq -c ".scoredVulnMessages[]" $config)"
-totalScore=$(jq ".currentPoints" $config)
-lastScore=$(jq ".lastPoints" $config)
-fixedVulns=$(jq ".currentVulns" $config)
-totalVulns=$(jq ".totalVulns" $config)
-totalPoints=$(jq ".totalPoints" $config)
+totalScore=$(jq -r ".currentPoints" $config)
+lastScore=$(jq -r ".lastPoints" $config)
+fixedVulns=$(jq -r ".currentVulns" $config)
+totalVulns=$(jq -r ".totalVulns" $config)
+totalPoints=$(jq -r ".totalPoints" $config)
 
 ####### Run Script #######
 init
