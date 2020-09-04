@@ -96,10 +96,10 @@ totalPoints=$(jq ".totalPoints" $config)
 init
 
 jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
-	lineToCheck=$(echo "$vuln" | jq ".lineToCheck")
-	fileToCheck=$(echo "$vuln" | jq ".fileToCheck")
-	message=$(echo "$vuln" | jq ".message")
-	points=$(echo "$vuln" | jq ".points")
+	lineToCheck=$(echo "$vuln" | jq -r ".lineToCheck")
+	fileToCheck=$(echo "$vuln" | jq -r ".fileToCheck")
+	message=$(echo "$vuln" | jq -r ".message")
+	points=$(echo "$vuln" | jq -r ".points")
 
 	if [ "$(grep "$lineToCheck" "$fileToCheck")" != "" ]; then
 		scorePoints "$points" "$message"
