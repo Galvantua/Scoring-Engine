@@ -1,10 +1,21 @@
 {
 	"timeZone": "America/New_York",
-	"sytemAdministrator": "user",
+	"systemUser": "user",
+	"scoringReport": "/home/user/Desktop/Score Report.html",
 	"totalVulns": 0,
 	"totalPoints": 0,
-	"scoredVulnMessages": ["Deleted user eve"],
-	"scoredPenaltyMessages": ["Deleted Authorized User bob"],
+	"scoredVulnMessages": [
+		{
+			"message": "Removed Unauthorized User eve",
+			"points": 3
+		}
+	],
+	"scoredPenaltyMessages": [
+		{
+			"message": "Removed Authorized User bob",
+			"points": 3
+		}
+	],
 	"currentPoints": 0,
 	"currentVulns": 0,
 	"lastPoints": 0,

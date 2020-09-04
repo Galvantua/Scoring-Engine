@@ -9,20 +9,14 @@ init () {
 
 	cp /opt/Scoring-Engine/README /home/user/Desktop/README
 
-
 	touch "$scoringReport"
-	touch "$totalScore"
-	touch "$scoringNegatives"
-	touch "$scoringPositives"
-	touch "$fixedVulns"
-	touch "$lastScore"
 
-	score=$(cat "$totalScore")
+	score="$totalScore"
 	score="${score} Points Earned out of ${totalPoints}"
-	numberVulns=$(cat "$fixedVulns")
+	numberVulns="$fixedVulns"
 
-	penalties=$(cat "$scoringNegatives" )
-	vulns=$(cat "$scoringPositives" )
+	penalties="$scoringNegatives"
+	vulns="$scoringPositives"
 	
 	cat "/opt/Scoring-Engine/head" > "$scoringReport"
 	echo 	"<h1>This is the scoring report for the assesment for the St. Augustine Composite Squadron Cyber Education Program.</h1>" >> "$scoringReport"
@@ -34,38 +28,47 @@ init () {
 	
 	echo	"<h3> Penalties: </h3>" >> "$scoringReport"
 
-	echo	"$penalties" >> "$scoringReport"
+	echo "$penalties" | while read penalty; do
+		message="$(jq ".message" $penalty)"
+		points=$(jq ".points" $penalty)
+		echo "<p class=\"penalties\">$message : <span class=\"red\">$points pts</span></p>" >> "$scoringReport"
+	done
 
 	echo	"<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
 	echo	"<h3> $numberVulns fixed out of $totalVulns </h3>" >> "$scoringReport"
+	echo "$vulns" | while read vuln; do
+		message="$(jq ".message" $vuln)"
+		points=$(jq ".points" $vuln)
+		echo "<p class=\"vulns\">$message : <span class=\"green\">$points pts</span></p>" >> "$scoringReport"
+	done
 
-	echo	"$vulns" >> "$scoringReport"
 	echo 	"</body></html>" >> "$scoringReport"
-	echo "" > "$scoringPositives"
-	echo "" > "$scoringNegatives"
-	echo "$(cat "$totalScore")" > "$lastScore"
-	echo "" > "$totalScore"
-	echo "" > "$fixedVulns"
+
+	jq '.scoredVulnMessages |= []' "$config" | sponge "$config"
+	jq '.scoredPenaltyMessages |= []' "$config" | sponge "$config"
+	
+	jq --arg points $totalScore '.lastPoints |= $points' "$config" | sponge "$config"
+	jq '.totalScore |= []' "$config" | sponge "$config"
+	jq '.currentVulns |= []' "$config" | sponge "$config"
 }
 scorePoints () {
-	#$1 Points
-	#$2 Message
-	score=$(cat $totalScore)
-	newScore=$(($score + $1))
-	echo "<p class=\"vulns\">$2 : <span class=\"green\">$1 pts</span></p>" >> "$scoringPositives"
-	echo $newScore > "$totalScore"
-	fixed=$(cat $fixedVulns)
+	points=$1
+	message="$2"
+	score=$totalScore
+	newScore=$(($score + $points))
+	jq --arg message "$message" --arg points $points ".scoredVulnMessages[]" |=.+ '{"message": $message, "points": $points}' "$config" | sponge "$config"
+	totalScore=$newscore
+	fixed=$fixedVulns
 	newFixed=$(($fixed + 1))
-	echo "$newFixed" > $fixedVulns
+	fixedVulns=$newFixed
 }
-
 removePoints () {
-	#$1 Points
-	#$2 Message
-	score=$(cat "$totalScore")
-	newScore=$(($score - $1))
-	echo "<p class=\"penalties\">$2 : <span class=\"red\">$1 pts</span></p>" >> "$scoringNegatives"
-	echo $newScore > "$totalScore"
+	points=$1
+	message="$2"
+	score=$totalScore
+	newScore=$(($score - $points))
+	jq --arg message "$message" --arg points $points ".scoredPenaltyMessages[]" |=.+ '{"message": $message, "points": $points}' "$config" | sponge "$config"
+	totalScore=$newscore
 }
 sendGainedPoints(){
 	notify-send -u critical -i "/opt/Scoring-Engine/gained.png" "Scoring Engine" "You Gained Points"
@@ -78,36 +81,42 @@ sendLostPoints(){
 
 
 ####### Init Vars #######
-
-scoringReport="/home/user/Desktop/Score Report.html"
-scoringNegatives="/opt/Scoring-Engine/penalties"
-scoringPositives="/opt/Scoring-Engine/gainedVulns"
-totalScore="/opt/Scoring-Engine/totalScore"
-lastScore="/opt/Scoring-Engine/lastScore"
-fixedVulns="/opt/Scoring-Engine/fixedVulns"
-
-totalVulns=1
-totalPoints=8
+config="/opt/Scoring-Engine/config.json"
+systemUser="$(jq ".systemUser" $config)"
+scoringReport="/home/$systemUser/Desktop/Score Report.html"
+scoringNegatives="$(jq -c ".scoredPenaltyMessages[]" $config)"
+scoringPositives="$(jq -c ".scoredVulnMessages[]" $config)"
+totalScore="$(jq ".currentPoints" $config)"
+lastScore="$(jq ".lastPoints" $config)"
+fixedVulns="$(jq ".currentVulns" $config)"
+totalVulns=$(jq ".totalVulns" $config)
+totalPoints=$(jq ".totalPoints" $config)
 
 ####### Run Script #######
 init
 
+jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
+	lineToCheck=$(echo "$vuln" | jq ".lineToCheck")
+	fileToCheck=$(echo "$vuln" | jq ".lineToCheck")
+	message=$(echo "$vuln" | jq ".lineToCheck")
+	points=$(echo "$vuln" | jq ".lineToCheck")
 
-if [ "$(grep "ANSWER: 0" "/home/user/Desktop/Forensics Question 1")" != "" ]; then
-	scorePoints "8" "Solved Forensics Question 1"
-fi 
+	if [ "$(grep "$lineToCheck" "$fileToCheck")" != "" ]; then
+		scorePoints "$points" "$message"
+	fi
+done
 
-if [[ "$(cat $totalScore)" = "" ]]; then
-	echo 0 > "$totalScore"
+if [[ "$totalScore" = "" ]]; then
+	totalScore=0
 fi
 
-if [[ "$(cat $fixedVulns)" = "" ]]; then
-	echo 0 > "$fixedVulns"
+if [[ "$fixedVulns" = "" ]]; then
+	fixedVulns=0
 fi
 
-if [[ "$( cat "$totalScore")" -gt "$(cat "$lastScore")" ]]; then
+if [[ "$totalScore" -gt "$lastScore" ]]; then
 	sendGainedPoints
-elif [[ "$( cat "$totalScore")" -lt "$(cat "$lastScore")" ]]; then
+elif [[ "$totalScore" -lt "$lastScore" ]]; then
 	sendLostPoints
 fi
 
