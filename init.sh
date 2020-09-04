@@ -8,7 +8,7 @@
 ###### Init Functions ######
 promptText() {
 	message="$1"
-	userRespose=$(zenity --entry --text="$message")
+	userResponse=$(zenity --entry --text="$message")
 }
 promptYN() {
 	message="$1"
@@ -63,7 +63,7 @@ vulnMakerUI () {
 				fi
 
 				if [ "$option3" != "" ]; then
-					prompt "$option3";
+					promptText "$option3";
 					input3="$userResponse"
 				fi
 
@@ -119,7 +119,7 @@ createForensics() {
 		echo "" >> "$fileName"
 		echo "ANSWER: " >> "$fileName"
 		chown "$sysUser":"$sysUser" "$fileName"
-		mv "$fileName" "/home/$sysUser/Desktop/"
+		mv "$fileName" "/home/${sysUser}/Desktop/"
 		echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Solved ${fileName}"
@@ -210,7 +210,7 @@ totalpoints=0
 ###### Start Init ######
 timedatectl set-timezone America/New_York
 clear
-echo "Welcome to the init script for the St Augustine Composite Squadron Scoring Engine" #replace with gui
+echo "Welcome to the init script for the St Augustine Composite Squadron Scoring Engine. Would you like to continue?" #replace with gui
 
 promptText "What is the System admin user?"
 sysUser="$userResponse"
