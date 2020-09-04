@@ -28,7 +28,7 @@ createVuln() {
 	var3="$5"
 	var4="$6"
 	var5="$7"
-	message="$("$type" "message" "$points" "$var1" "$var2" "$var3" "$var4" "$var5")"
+	message="$("$type" "message" "$points" "" "$var1" "$var2" "$var3" "$var4" "$var5")"
 	$type "test" "$points" "$message" "$var1" "$var2" "$var3" "$var4" "$var5"
 	
 	#vuln="
@@ -110,8 +110,8 @@ chkFilePositive() {
 
 createForensics() {
 	outputType="$1"
-	message="$2"
-	points="$3"
+	points="$2"
+	message="$3"
 	question="$4"
 	answer="$5"
 	fileName="$6"
