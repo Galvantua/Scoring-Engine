@@ -56,7 +56,7 @@ scorePoints () {
 	message="$2"
 	score=$totalScore
 	newScore=$(($score + $points))
-	jq ".scoredVulnMessages[] |=.+ {\"message\": \"$message\", \"points\": $points}" "$config" | sponge "$config"
+	jq ".scoredVulnMessages[.scoredVulnMessages| length] |=.+ {\"message\": \"$message\", \"points\": $points}" "$config" | sponge "$config"
 	totalScore=$newScore
 	fixed=$fixedVulns
 	newFixed=$(($fixed + 1))
@@ -67,7 +67,7 @@ removePoints () {
 	message="$2"
 	score=$totalScore
 	newScore=$(($score - $points))
-	jq ".scoredPenaltyMessages[] |=.+ {\"message\": $message, \"points\": $points}" "$config" | sponge "$config"
+	jq ".scoredPenaltyMessages[.scoredPenaltyMessages| length] |=.+ {\"message\": $message, \"points\": $points}" "$config" | sponge "$config"
 	totalScore=$newScore
 }
 sendGainedPoints(){
