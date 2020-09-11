@@ -105,7 +105,8 @@ jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
 		scorePoints $points "$message"
 	fi
 done
-
+echo $totalScore
+echo $fixedVulns
 if [ -z $totalScore ]; then
 	totalScore=0
 fi
