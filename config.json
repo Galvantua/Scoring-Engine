@@ -2,8 +2,8 @@
 	"timeZone": "America/New_York",
 	"systemUser": "user",
 	"scoringReport": "/home/user/Desktop/Score Report.html",
-	"totalVulns": 0,
-	"totalPoints": 0,
+	"totalVulns": 9,
+	"totalPoints": 100,
 	"scoredVulnMessages": [
 		{
 			"message": "Removed Unauthorized User eve",
@@ -17,7 +17,7 @@
 		}
 	],
 	"currentPoints": 0,
-	"currentVulns": 0,
+	"currentVulns": 1,
 	"lastPoints": 0,
 
 	"filesToCheckPositive": [

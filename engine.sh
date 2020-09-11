@@ -11,8 +11,7 @@ init () {
 
 	touch "$scoringReport"
 
-	score="$totalScore"
-	score="${score} Points Earned out of ${totalPoints}"
+	score="${totalScore} Points Earned out of ${totalPoints}"
 	numberVulns="$fixedVulns"
 
 	penalties="$scoringNegatives"
