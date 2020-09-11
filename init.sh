@@ -98,13 +98,17 @@ chkFileNegative() {
 
 chkFilePositive() {
 	outputType="$1"
-	lineToCheck="$2"
-	fileToCheck="$3"
-	message="$4"
+	points=$2
+	message"$3"
+	lineToCheck="$4"
+	fileToCheck="$5"
+	messageToPrint="$6"
+
 	if [ "$outputType" = "test" ]; then
 		echo "\"\$(grep ${lineToCheck} ${fileToCheck})\" != \"\""
+		jq ".filesToCheckPositive[.filesToCheckPositive| length] |=.+ {\"lineToCheck\": \"$answer\", \"fileToCheck\": \"/home/$sysUser/Desktop/$fileName\", \"points\": $points, \"message\": \"$message\"}" ./config.json | sponge ./config.json
 	elif [ "$outputType" = "message" ]; then
-		echo "$message"
+		echo "$messageToPrint"
 	fi
 }
 
