@@ -123,7 +123,7 @@ createForensics() {
 		echo "ANSWER: " >> "$fileName"
 		chown "$sysUser":"$sysUser" "$fileName"
 		mv "$fileName" "/home/${sysUser}/Desktop/"
-		jq ".filesToCheckPositive |=.+ [{\"lineToCheck\": \"$answer\", \"fileToCheck\": \"/home/$sysUser/Desktop/$fileName\", \"points\": $points, \"message\": \"$message\"}]" ./config.json | sponge ./config.json
+		jq ".filesToCheckPositive[.filesToCheckPositive| length] |=.+ {\"lineToCheck\": \"$answer\", \"fileToCheck\": \"/home/$sysUser/Desktop/$fileName\", \"points\": $points, \"message\": \"$message\"}" ./config.json | sponge ./config.json
 		# echo "\"\$(grep \"ANSWER: $answer\" \"/home/$sysUser/Desktop/$fileName\")\" != \"\""
 	elif [ "$outputType" = "message" ]; then
 		echo "Solved ${fileName}"
