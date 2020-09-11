@@ -44,8 +44,8 @@ init () {
 
 	echo 	"</body></html>" >> "$scoringReport"
 
-	#jq '.scoredVulnMessages |= []' "$config" | sponge "$config"
-	#jq '.scoredPenaltyMessages |= []' "$config" | sponge "$config"
+	jq '.scoredVulnMessages |= []' "$config" | sponge "$config"
+	jq '.scoredPenaltyMessages |= []' "$config" | sponge "$config"
 	
 	jq --arg points $totalScore '.lastPoints |= $points' "$config" | sponge "$config"
 	jq '.currentPoints |= 0' "$config" | sponge "$config"
