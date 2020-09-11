@@ -29,23 +29,23 @@ init () {
 	echo	"<h3> Penalties: </h3>" >> "$scoringReport"
 
 	echo "$penalties" | while read penalty; do
-		message="$(jq ".message" $penalty)"
-		points=$(jq ".points" $penalty)
+		message="$(echo $penalty | jq ".message")"
+		points=$(echo $penalty | jq ".points")
 		echo "<p class=\"penalties\">$message : <span class=\"red\">$points pts</span></p>" >> "$scoringReport"
 	done
 
 	echo	"<h3> Fixed Vulnerabilities: </h3>" >> "$scoringReport"
 	echo	"<h3> $numberVulns fixed out of $totalVulns </h3>" >> "$scoringReport"
 	echo "$vulns" | while read vuln; do
-		message="$(jq ".message" $vuln)"
-		points=$(jq ".points" $vuln)
+		message="$(echo $vuln | jq ".message")"
+		points=$(echo $vuln | jq ".points")
 		echo "<p class=\"vulns\">$message : <span class=\"green\">$points pts</span></p>" >> "$scoringReport"
 	done
 
 	echo 	"</body></html>" >> "$scoringReport"
 
-	jq '.scoredVulnMessages |= []' "$config" | sponge "$config"
-	jq '.scoredPenaltyMessages |= []' "$config" | sponge "$config"
+	#jq '.scoredVulnMessages |= []' "$config" | sponge "$config"
+	#jq '.scoredPenaltyMessages |= []' "$config" | sponge "$config"
 	
 	jq --arg points $totalScore '.lastPoints |= $points' "$config" | sponge "$config"
 	jq '.currentPoints |= 0' "$config" | sponge "$config"
@@ -67,7 +67,7 @@ removePoints () {
 	message="$2"
 	score=$totalScore
 	newScore=$(($score - $points))
-	jq --arg message "$message" --arg points $points '.scoredPenaltyMessages[] |=.+ {"message": $message, "points": $points}' "$config" | sponge "$config"
+	jq ".scoredPenaltyMessages[] |=.+ {\"message\": $message, \"points\": $points}" "$config" | sponge "$config"
 	totalScore=$newScore
 }
 sendGainedPoints(){
