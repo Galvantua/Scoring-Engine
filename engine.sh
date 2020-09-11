@@ -50,6 +50,7 @@ init () {
 	jq '.currentPoints |= 0' "$config" | sponge "$config"
 	jq '.currentVulns |= 0' "$config" | sponge "$config"
 }
+
 scorePoints () {
 	points=$1
 	message="$2"
@@ -105,11 +106,11 @@ jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
 	fi
 done
 
-if [[ "$totalScore" = "" ]]; then
+if [ -z $totalScore ]; then
 	totalScore=0
 fi
 
-if [[ "$fixedVulns" = "" ]]; then
+if [ -z $fixedVulns ]; then
 	fixedVulns=0
 fi
 
