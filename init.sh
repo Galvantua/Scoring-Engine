@@ -8,11 +8,11 @@
 ###### Init Functions ######
 promptText() {
 	message="$1"
-	userResponse=$(zenity --entry --text="$message")
+	userResponse=$(zenity --entry --text="$message" 2> >(grep -v 'GtkDialog' >&2))
 }
 promptYN() {
 	message="$1"
-	zenity --question --text="$message"
+	zenity --question --text="$message" 2> >(grep -v 'GtkDialog' >&2)
 	if [ $? = 0 ]; then
 		userResponse="Y"
 	elif [ $? = 1 ]; then
