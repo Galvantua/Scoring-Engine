@@ -54,10 +54,8 @@ init () {
 scorePoints () {
 	points=$1
 	message="$2"
-	score=$totalScore
-	newScore=$(($score + $points))
 	jq ".scoredVulnMessages[.scoredVulnMessages| length] |=.+ {\"message\": \"$message\", \"points\": $points}" "$config" | sponge "$config"
-	totalScore=$newScore
+	totalScore=$(($totalScore + $points))
 	fixed=$fixedVulns
 	newFixed=$(($fixed + 1))
 	fixedVulns=$newFixed
@@ -95,7 +93,10 @@ totalPoints=$(jq -r ".totalPoints" $config)
 ####### Run Script #######
 init
 
-jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
+IFS=$'\n'
+secretVAR=($(jq -c ".filesToCheckPositive[]" "$config"))
+
+for vuln in "${secretVAR[@]}" ; do
 	lineToCheck=$(echo "$vuln" | jq -r ".lineToCheck")
 	fileToCheck=$(echo "$vuln" | jq -r ".fileToCheck")
 	message=$(echo "$vuln" | jq -r ".message")
@@ -104,7 +105,11 @@ jq -c ".filesToCheckPositive[]" "$config" | while read vuln; do
 	if [ "$(grep "$lineToCheck" "$fileToCheck")" != "" ]; then
 		scorePoints $points "$message"
 	fi
+echo $totalScore
 done
+
+IFS=$' '
+
 echo $totalScore
 echo $fixedVulns
 if [ -z $totalScore ]; then

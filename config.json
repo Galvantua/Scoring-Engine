@@ -1,16 +1,16 @@
 {
   "timeZone": "America/New_York",
-  "systemUser": "user",
-  "scoringReport": "/home/user/Desktop/Score Report.html",
+  "systemUser": "bob",
+  "scoringReport": "/home/bob/Desktop/Score Report.html",
   "totalVulns": 2,
   "totalPoints": 100,
   "scoredVulnMessages": [
     {
-      "message": "Solved Forensics Question 1",
-      "points": 50
+      "message": "Removed Guest Account",
+      "points": 5
     },
     {
-      "message": "Disabled Guest Account",
+      "message": "Solved Forensics Question 1",
       "points": 50
     }
   ],
@@ -26,16 +26,10 @@
       "message": "Removed Guest Account"
     },
     {
-      "lineToCheck": "answer",
+      "lineToCheck": "1.0",
       "fileToCheck": "/home/bob/Desktop/Forensics Question 1",
       "points": 50,
       "message": "Solved Forensics Question 1"
-    },
-    {
-      "lineToCheck": "answer",
-      "fileToCheck": "/home/bob/Desktop/Forensics Question 1",
-      "points": 50,
-      "message": "Disabled Guest Account"
     }
   ],
   "filesToCheckNegative": [
