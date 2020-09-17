@@ -109,7 +109,7 @@ chkFileNegative() {
 chkFilePositive() {
 	outputType="$1"
 	points=$2
-	message"$3"
+	message="$3"
 	lineToCheck="$4"
 	fileToCheck="$5"
 	messageToPrint="$6"
