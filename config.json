@@ -1,94 +1,92 @@
 {
-  "timeZone": "America/New_York",
-  "systemUser": "bob",
-  "scoringReport": "/home/bob/Desktop/Score Report.html",
-  "totalVulns": 2,
-  "totalPoints": 100,
-  "scoredVulnMessages": [
-    {
-      "message": "Removed Guest Account",
-      "points": 5
-    },
-    {
-      "message": "Solved Forensics Question 1",
-      "points": 50
-    }
-  ],
-  "scoredPenaltyMessages": [],
-  "currentPoints": 0,
-  "currentVulns": 0,
-  "lastPoints": "0",
-  "filesToCheckPositive": [
-    {
-      "lineToCheck": "allow-guest=false",
-      "fileToCheck": "/etc/lightdm/lightdm.conf",
-      "points": 5,
-      "message": "Removed Guest Account"
-    },
-    {
-      "lineToCheck": "1.0",
-      "fileToCheck": "/home/bob/Desktop/Forensics Question 1",
-      "points": 50,
-      "message": "Solved Forensics Question 1"
-    }
-  ],
-  "filesToCheckNegative": [
-    {
-      "lineToCheck": "Protocol 1",
-      "fileToCheck": "/etc/ssh/sshd_config",
-      "points": 5,
-      "message": "Disabled SSH Protocol 1"
-    }
-  ],
-  "usersToDelete": [
-    {
-      "user": "eve",
-      "points": 3,
-      "message": "Removed Unauthorized User eve"
-    }
-  ],
-  "usersToAdd": [
-    {
-      "user": "evans",
-      "points": 3,
-      "message": "Added Authorized User evans"
-    }
-  ],
-  "usersToChpasswd": [
-    {
-      "user": "alice",
-      "points": 3,
-      "message": "Changed Insecure Password For User alice"
-    }
-  ],
-  "groupsToAdd": [
-    {
-      "group": "cryptography",
-      "points": 3,
-      "message": "Added Group cryptography"
-    }
-  ],
-  "groupsToDelete": [
-    {
-      "group": "hackers",
-      "points": 3,
-      "message": "Removed Group hackers"
-    }
-  ],
-  "usersToRemoveFromGroup": [
-    {
-      "user": "bob",
-      "group": "sudo",
-      "points": 3,
-      "message": "Removed bob from group sudo"
-    }
-  ],
-  "usersToAddToGroup": [
-    {
-      "user": "alice",
-      "group": "cryptography",
-      "points": 3,
-      "message": "Added alice to group cryptography"
-    }
-  ]
+	"timeZone": "America/New_York",
+	"systemUser": "bob",
+	"scoringReport": "/home/bob/Desktop/Score Report.html",
+	"totalVulns": 2,
+	"totalPoints": 100,
+	"scoredVulnMessages": [
+		{
+			"message": "Removed Guest Account",
+			"points": 5
+		},
+		{
+			"message": "Solved Forensics Question 1",
+			"points": 50
+		}
+	],
+	"scoredPenaltyMessages": [],
+	"lastPoints": "0",
+	"filesToCheckPositive": [
+		{
+			"lineToCheck": "allow-guest=false",
+			"fileToCheck": "/etc/lightdm/lightdm.conf",
+			"points": 5,
+			"message": "Removed Guest Account"
+		},
+		{
+			"lineToCheck": "1.0",
+			"fileToCheck": "/home/bob/Desktop/Forensics Question 1",
+			"points": 50,
+			"message": "Solved Forensics Question 1"
+		}
+	],
+	"filesToCheckNegative": [
+		{
+			"lineToCheck": "Protocol 1",
+			"fileToCheck": "/etc/ssh/sshd_config",
+			"points": 5,
+			"message": "Disabled SSH Protocol 1"
+		}
+	],
+	"usersToDelete": [
+		{
+			"user": "eve",
+			"points": 3,
+			"message": "Removed Unauthorized User eve"
+		}
+	],
+	"usersToAdd": [
+		{
+			"user": "evans",
+			"points": 3,
+			"message": "Added Authorized User evans"
+		}
+	],
+	"usersToChpasswd": [
+		{
+			"user": "alice",
+			"points": 3,
+			"message": "Changed Insecure Password For User alice"
+		}
+	],
+	"groupsToAdd": [
+		{
+			"group": "cryptography",
+			"points": 3,
+			"message": "Added Group cryptography"
+		}
+	],
+	"groupsToDelete": [
+		{
+			"group": "hackers",
+			"points": 3,
+			"message": "Removed Group hackers"
+		}
+	],
+	"usersToRemoveFromGroup": [
+		{
+			"user": "bob",
+			"group": "sudo",
+			"points": 3,
+			"message": "Removed bob from group sudo"
+		}
+	],
+	"usersToAddToGroup": [
+		{
+			"user": "alice",
+			"group": "cryptography",
+			"points": 3,
+			"message": "Added alice to group cryptography"
+		}
+	]
 }

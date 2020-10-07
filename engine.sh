@@ -81,17 +81,17 @@ sendLostPoints(){
 ####### Init Vars #######
 config="/opt/Scoring-Engine/config.json"
 systemUser="$(jq -r ".systemUser" $config)"
-scoringReport="/home/$systemUser/Desktop/Score Report.html"
+scoringReport="$(jq -r ".scoringReport" $config)"
 scoringNegatives="$(jq -c ".scoredPenaltyMessages[]" $config)"
 scoringPositives="$(jq -c ".scoredVulnMessages[]" $config)"
-totalScore=$(jq -r ".currentPoints" $config)
+totalScore=0
+fixedVulns=0
 lastScore=$(jq -r ".lastPoints" $config)
-fixedVulns=$(jq -r ".currentVulns" $config)
 totalVulns=$(jq -r ".totalVulns" $config)
 totalPoints=$(jq -r ".totalPoints" $config)
 
 ####### Run Script #######
-init
+
 
 IFS=$'\n'
 secretVAR=($(jq -c ".filesToCheckPositive[]" "$config"))
@@ -126,5 +126,4 @@ elif [[ $totalScore -lt $lastScore ]]; then
 	sendLostPoints
 fi
 
-jq ".currentPoints |= $totalScore" ./config.json | sponge ./config.json
-jq ".currentVulns |= $fixedVulns" ./config.json | sponge ./config.json
+init
