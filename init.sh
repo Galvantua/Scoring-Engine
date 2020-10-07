@@ -232,6 +232,8 @@ echo "Welcome to the init script for the St Augustine Composite Squadron Scoring
 
 promptText "What is the System admin user?"
 sysUser="$userResponse"
+jq ".systemUser |= \"$sysUser\"" config.json | sponge config.json
+jq ".scoringReport |= \"/home/$sysUser/Desktop/Score Report.html\"" config.json | sponge config.json
 
 if [ "$(grep 'bash /opt/Scoring-Engine/engine.sh' /etc/crontab)" = "" ]; then
 	echo "DISPLAY=:0.0" >> /etc/crontab
