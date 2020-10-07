@@ -235,11 +235,11 @@ sysUser="$userResponse"
 jq ".systemUser |= \"$sysUser\"" config.json | sponge config.json
 jq ".scoringReport |= \"/home/$sysUser/Desktop/Score Report.html\"" config.json | sponge config.json
 
-if [ "$(grep 'bash /opt/Scoring-Engine/engine.sh' /etc/crontab)" = "" ]; then
-	echo "DISPLAY=:0.0" >> /etc/crontab
-	echo "XAUTHORITY=/home/${sysUser}/.Xauthority" >> /etc/crontab
-	echo "* *     * * *   root    bash /opt/Scoring-Engine/engine.sh" >> /etc/crontab
-fi
+#if [ "$(grep 'bash /opt/Scoring-Engine/engine.sh' /etc/crontab)" = "" ]; then
+#	echo "DISPLAY=:0.0" >> /etc/crontab
+#	echo "XAUTHORITY=/home/${sysUser}/.Xauthority" >> /etc/crontab
+#	echo "* *     * * *   root    bash /opt/Scoring-Engine/engine.sh" >> /etc/crontab
+#fi
 touch /etc/lightdm/lightdm.conf
 echo "[Seat:*]
 autologin-user=${sysUser}" > /etc/lightdm/lightdm.conf
